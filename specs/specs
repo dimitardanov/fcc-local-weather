@@ -1,0 +1,36 @@
+# Website/Webapp Specifications
+
+## Functional Spec
+
+### User Stories:
+
+1. User Story: I can see the weather in my current location.
+2. User Story: I can see a different icon or background image (e.g. snowy mountain, hot desert) depending on the weather.
+3. User Story: I can push a button to toggle between Fahrenheit and Celsius.
+
+
+## Non-functional Spec
+
+### Browser penetration:
+
+    - Chrome:
+        - version 50/49
+    - Firefox:
+        - 45
+    - Safari:
+        - 9
+    - IE:
+        - 11
+    - Edge:
+        - 13
+
+
+### HTML5
+
+### Accessibility?
+
+### CMS?
+
+### Language?
+
+### Optimizations?
