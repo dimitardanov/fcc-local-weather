@@ -39,6 +39,10 @@ $(function() {
     });
   };
 
+  var getTown = function (data) {
+    return data.name;
+  };
+
 
   if (openWeatherMapAPIKey.length>0) {
     getWeather();
