@@ -62,6 +62,10 @@ $(function() {
     return data.weather.icon;
   };
 
+  var getWeatherDescription = function (data) {
+    return data.weather.description;
+  };
+
   if (openWeatherMapAPIKey.length>0) {
     getWeather();
   } else {
