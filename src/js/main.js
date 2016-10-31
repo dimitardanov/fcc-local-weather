@@ -82,6 +82,10 @@ $(function() {
     return data.weather.main.toLowerCase();
   };
 
+  var getWeatherId = function (data) {
+    return data.weather[0].id;
+  };
+
 
   if (openWeatherMapAPIKey.length>0) {
     getWeather();
