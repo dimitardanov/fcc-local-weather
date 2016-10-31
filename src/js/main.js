@@ -24,8 +24,8 @@ $(function() {
       jsonp: false,
       dataType: 'json',
       success: function (data, status, jqxhr) {
-        console.log(data);
-        console.log(status);
+        wData = data;
+        addWeatherHTML(wData);
       },
       error: function (jqxhr, status, error) {
         console.log(jqxhr);
@@ -37,6 +37,18 @@ $(function() {
         console.log(status);
       }
     });
+  };
+
+  var addWeatherHTML = function (data) {
+    var $locationHTML = createLocationHTML(data);
+    $article.html($locationHTML);
+  };
+
+  var createLocationHTML = function (data) {
+    var $locHTML = $('<h2></h2>',
+        {'class': 'text-center'}).text(getTown(data));
+    $locHTML.append($('<small></small>').text(', ' + getCountryCode(data)));
+    return $locHTML;
   };
 
   var getTown = function (data) {
