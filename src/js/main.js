@@ -7,6 +7,8 @@ $(function() {
   };
   var openWeatherMapURL = 'http://api.openweathermap.org/data/2.5/weather?';
   var openWeatherMapAPIKey = window.location.search.slice(5);
+  var wData = {};
+  var absZeroC = -273.15;
 
 
   var getWeather = function () {
