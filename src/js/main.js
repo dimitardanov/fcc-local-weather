@@ -1,4 +1,6 @@
 
+var weatherIconsMapping = require('./lib/weathericons.js');
+
 $(function() {
   var $article = $('#weather-today');
   var location = {
