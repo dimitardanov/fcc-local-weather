@@ -47,6 +47,9 @@ $(function() {
     return data.sys.country;
   };
 
+  var celsius2fahrenheit = function (tempC) {
+    return tempC * 1.8 + 32;
+  };
 
   if (openWeatherMapAPIKey.length>0) {
     getWeather();
