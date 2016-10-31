@@ -47,6 +47,13 @@ $(function() {
     return data.sys.country;
   };
 
+  var getTemp = function(data) {
+    var tempK = data.main.temp;
+    var tempC = tempK + absZeroC;
+    var tempF = celsius2fahrenheit(tempC);
+    return {K: tempK, C: tempC, F: tempF};
+  };
+
   var celsius2fahrenheit = function (tempC) {
     return tempC * 1.8 + 32;
   };
