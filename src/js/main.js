@@ -58,6 +58,10 @@ $(function() {
     return tempC * 1.8 + 32;
   };
 
+  var getWeatherIcon = function (data) {
+    return data.weather.icon;
+  };
+
   if (openWeatherMapAPIKey.length>0) {
     getWeather();
   } else {
