@@ -43,7 +43,9 @@ $(function() {
 
   var addWeatherHTML = function (data) {
     var $locationHTML = createLocationHTML(data);
+    var $weatherInfoHTML = createWeatherInfoHTML(data);
     $article.html($locationHTML);
+    $article.append($weatherInfoHTML);
   };
 
   var createLocationHTML = function (data) {
@@ -51,6 +53,26 @@ $(function() {
         {'class': 'text-center'}).text(getTown(data));
     $locHTML.append($('<small></small>').text(', ' + getCountryCode(data)));
     return $locHTML;
+  };
+
+  var createWeatherInfoHTML = function (data) {
+    var $holder = $('<div></div>');
+    var $icon = $('<i></i>', {'class': getWeatherIconsClass(data)});
+    $holder.append($icon);
+    var $temp = $('<span></span>', {'class': 'wi'}).text(' ' + Math.round(getTemp(data).C) + ' ');
+    var $deg = $('<i></i>', {'class': 'wi wi-celsius'});
+    $holder.append($temp);
+    $holder.append($deg);
+    return $holder;
+  };
+
+  var getWeatherIconsClass = function (data) {
+    var code = getWeatherId(data);
+    var prefix = 'wi wi-';
+    if (!(code > 699 && code < 800) && !(code > 899 && code < 1000)) {
+      prefix = prefix + 'day-';
+    }
+    return prefix + weatherIconsMapping[code.toString(10)].icon;
   };
 
   var getTown = function (data) {
