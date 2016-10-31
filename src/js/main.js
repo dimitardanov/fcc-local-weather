@@ -43,6 +43,10 @@ $(function() {
     return data.name;
   };
 
+  var getCountryCode = function (data) {
+    return data.sys.country;
+  };
+
 
   if (openWeatherMapAPIKey.length>0) {
     getWeather();
