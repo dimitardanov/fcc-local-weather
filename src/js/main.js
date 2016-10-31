@@ -66,6 +66,11 @@ $(function() {
     return data.weather.description;
   };
 
+  var getWeatherString = function (data) {
+    return data.weather.main.toLowerCase();
+  };
+
+
   if (openWeatherMapAPIKey.length>0) {
     getWeather();
   } else {
