@@ -68,18 +68,17 @@ $(function() {
   };
 
   var getDayNightStr = function (data) {
+    var dayStr = '';
     var icon = getWeatherIcon(data);
-    var lastCharIndex = icon.length -1
-    var lastIconChar = icon[lastCharIndex];
-    var dayStr = ''
+    if (typeof icon !== 'string' || icon.length === 0) {
+      return dayStr;
+    }
+    var lastIconChar = icon[icon.length -1];
     if (lastIconChar === 'd') {
       dayStr = 'day-';
     } else if (lastIconChar === 'n') {
-      dayStr = 'night-'
+      dayStr = 'night-';
     }
-    console.log(icon);
-    console.log(lastIconChar);
-    console.log(dayStr);
     return dayStr;
   };
 
