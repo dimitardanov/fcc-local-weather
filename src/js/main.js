@@ -55,8 +55,8 @@ $(function() {
     var $holder = $('<div></div>', {'class': 'text-center lead'});
     var $icon = $('<i></i>', {'class': getWeatherIconsClass(data)});
     $holder.append($icon);
-    var $temp = $('<span></span>', {'class': 'wi'}).text(' ' + Math.round(getTemp(data).C) + ' ');
-    var $deg = $('<i></i>', {'class': 'wi wi-celsius'});
+    var $temp = $('<span></span>').html(Math.round(getTemp(data).C) + '&deg;');
+    var $deg = $('<span>C</span>');
     $holder.append($temp);
     $holder.append($deg);
     return $holder;
