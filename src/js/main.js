@@ -1,5 +1,4 @@
 
-var weatherIconsMapping = require('./lib/weathericons.js');
 
 $(function() {
   var $article = $('#weather-today');
@@ -53,7 +52,7 @@ $(function() {
 
   var createWeatherInfoHTML = function (data) {
     var $holder = $('<div></div>', {'class': 'text-center lead'});
-    var $icon = $('<i></i>', {'class': getWeatherIconsClass(data)});
+    var $icon = $('<i></i>', {'class': 'wi wi-refresh'});
     $holder.append($icon);
     var $temp = $('<span></span>').html(Math.round(getTemp(data).C) + '&deg;');
     var $deg = $('<span>C</span>');
@@ -62,14 +61,6 @@ $(function() {
     return $holder;
   };
 
-  var getWeatherIconsClass = function (data) {
-    var code = getWeatherId(data);
-    var prefix = 'wi wi-';
-    if (!(code > 699 && code < 800) && !(code > 899 && code < 1000)) {
-      prefix = prefix + 'day-';
-    }
-    return prefix + weatherIconsMapping[code.toString(10)].icon;
-  };
 
   var getTown = function (data) {
     return data.name;
