@@ -52,13 +52,18 @@ $(function() {
 
   var createWeatherInfoHTML = function (data) {
     var $holder = $('<div></div>', {'class': 'text-center lead'});
-    var $icon = $('<i></i>', {'class': 'wi wi-refresh'});
+    var $icon = $('<i></i>', {'class': getWeatherIconsClass(data)});
     $holder.append($icon);
     var $temp = $('<span></span>').html(Math.round(getTemp(data).C) + '&deg;');
     var $deg = $('<span>C</span>');
     $holder.append($temp);
     $holder.append($deg);
     return $holder;
+  };
+
+  var getWeatherIconsClass = function (data) {
+    var prefix = 'wi wi-owm-';
+    return prefix + getWeatherId(data);
   };
 
 
