@@ -56,7 +56,7 @@ $(function() {
   };
 
   var createWeatherInfoHTML = function (data) {
-    var $holder = $('<div></div>');
+    var $holder = $('<div></div>', {'class': 'text-center lead'});
     var $icon = $('<i></i>', {'class': getWeatherIconsClass(data)});
     $holder.append($icon);
     var $temp = $('<span></span>', {'class': 'wi'}).text(' ' + Math.round(getTemp(data).C) + ' ');
