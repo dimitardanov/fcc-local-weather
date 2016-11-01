@@ -87,7 +87,7 @@ $(function() {
   };
 
   var getWeatherIcon = function (data) {
-    return data.weather.icon;
+    return data.weather[0].icon;
   };
 
   var getWeatherDescription = function (data) {
