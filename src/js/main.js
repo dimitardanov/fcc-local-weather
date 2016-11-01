@@ -63,7 +63,24 @@ $(function() {
 
   var getWeatherIconsClass = function (data) {
     var prefix = 'wi wi-owm-';
+    prefix = prefix + getDayNightStr(data);
     return prefix + getWeatherId(data);
+  };
+
+  var getDayNightStr = function (data) {
+    var icon = getWeatherIcon(data);
+    var lastCharIndex = icon.length -1
+    var lastIconChar = icon[lastCharIndex];
+    var dayStr = ''
+    if (lastIconChar === 'd') {
+      dayStr = 'day-';
+    } else if (lastIconChar === 'n') {
+      dayStr = 'night-'
+    }
+    console.log(icon);
+    console.log(lastIconChar);
+    console.log(dayStr);
+    return dayStr;
   };
 
 
