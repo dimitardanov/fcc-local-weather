@@ -4,8 +4,8 @@ var weatherIconsMapping = require('./lib/weathericons.js');
 $(function() {
   var $article = $('#weather-today');
   var location = {
-    lon: 135,
-    lat: 45
+    lon: 0,
+    lat: 0
   };
   var openWeatherMapURL = 'http://api.openweathermap.org/data/2.5/weather?';
   var openWeatherMapAPIKey = window.location.search.slice(5);
@@ -111,8 +111,12 @@ $(function() {
   };
 
 
-  if (openWeatherMapAPIKey.length>0) {
-    getWeather();
+  if ((openWeatherMapAPIKey.length>0) && ('geolocation' in navigator)) {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      location.lat = position.coords.latitude;
+      location.lon = position.coords.longitude;
+      getWeather();
+    });
   } else {
     $article.html($('<div></div>', {'class': 'alert alert-warning text-center'}).text('The sun will shine this night, expect a full moon at noon ').append($('<strong></strong>').text(':)')));
   }
