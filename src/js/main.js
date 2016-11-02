@@ -45,15 +45,15 @@ $(function() {
 
   var createLocationHTML = function (data) {
     var $locHTML = $('<h2></h2>',
-        {'class': 'text-center'}).text(getTown(data));
-    $locHTML.append($('<small></small>').text(', ' + getCountryCode(data)));
+        {'class': 'text-center'}).text(' ' + getTown(data) + ', ');
+    $locHTML.append($('<small></small>').text(getCountryCode(data)));
+    $locHTML.prepend($('<i></i>',
+        {'class': getWeatherIconsClass(data)}));
     return $locHTML;
   };
 
   var createWeatherInfoHTML = function (data) {
     var $holder = $('<div></div>', {'class': 'text-center lead'});
-    var $icon = $('<i></i>', {'class': getWeatherIconsClass(data)});
-    $holder.append($icon);
     var $temp = $('<span></span>',
         {id: 'temp-val'}).html(Math.round(getTemp(data).C) + '&deg;');
     var $deg = createC2FSwitchHTML(data);
