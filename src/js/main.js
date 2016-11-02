@@ -130,7 +130,7 @@ $(function() {
   };
 
   var getWeatherString = function (data) {
-    return data.weather.main.toLowerCase();
+    return data.weather[0].main.toLowerCase();
   };
 
   var getWeatherId = function (data) {
