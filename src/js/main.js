@@ -121,7 +121,8 @@ $(function() {
 
   var getTemp = function(data) {
     var tempK = data.main.temp;
-    var tempC = tempK + absZeroC;
+    var tempC = Math.round(tempK + absZeroC);
+    tempK = Math.round(tempK);
     var tempF = celsius2fahrenheit(tempC);
     return {K: tempK, C: tempC, F: tempF};
   };
