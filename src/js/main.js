@@ -136,6 +136,15 @@ $(function() {
     return data.weather[0].id;
   };
 
+  $('#weather-today').on('click', '#c-btn, #f-btn', function(e) {
+    var $this = $(e.target);
+    var $other = $($this.data('other-btn'));
+    $('#temp-val').html($this.data('temp-val') + '&deg;');
+    $this.removeClass('btn-default')
+         .addClass('btn-primary');
+    $other.addClass('btn-default')
+          .removeClass('btn-primary');
+  });
 
   if ((openWeatherMapAPIKey.length>0) && ('geolocation' in navigator)) {
     navigator.geolocation.getCurrentPosition(getWeather);
