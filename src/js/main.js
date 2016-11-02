@@ -55,10 +55,27 @@ $(function() {
     var $icon = $('<i></i>', {'class': getWeatherIconsClass(data)});
     $holder.append($icon);
     var $temp = $('<span></span>').html(Math.round(getTemp(data).C) + '&deg;');
-    var $deg = $('<span>C</span>');
+    var $deg = createC2FSwitchHTML(data);
     $holder.append($temp);
     $holder.append($deg);
     return $holder;
+  };
+
+  var createC2FSwitchHTML = function (data) {
+    var temps = getTemp(data);
+    var $btnGrp = $('<div></div>',
+        {'class': 'btn-group', role: 'group'});
+    var $cBtn = $('<button></button>',
+        {'class': 'btn btn-primary', type: 'button', id: 'c-btn'})
+        .text('C');
+    var $fBtn = $('<button></button>',
+        {'class': 'btn btn-default', type: 'button', id: 'f-btn'})
+        .text('F');
+    $cBtn.data({'temp-val': temps.C, 'other-btn': '#f-btn'});
+    $fBtn.data({'temp-val': temps.F, 'other-btn': '#c-btn'});
+    $btnGrp.append($cBtn);
+    $btnGrp.append($fBtn);
+    return $btnGrp;
   };
 
   var getWeatherIconsClass = function (data) {
