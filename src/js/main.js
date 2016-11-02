@@ -126,7 +126,7 @@ $(function() {
   };
 
   var getWeatherDescription = function (data) {
-    return data.weather.description;
+    return data.weather[0].description;
   };
 
   var getWeatherString = function (data) {
