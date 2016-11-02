@@ -39,7 +39,9 @@ $(function() {
   var addWeatherHTML = function (data) {
     var $locationHTML = createLocationHTML(data);
     var $weatherInfoHTML = createWeatherInfoHTML(data);
+    var $weatherDescription = createWeatherDescriptionHTML(data);
     $article.html($locationHTML);
+    $article.append($weatherDescription);
     $article.append($weatherInfoHTML);
   };
 
@@ -78,6 +80,13 @@ $(function() {
     $btnGrp.append($cBtn);
     $btnGrp.append($fBtn);
     return $btnGrp;
+  };
+
+  var createWeatherDescriptionHTML = function (data) {
+    var $desc = $('<p></p>',
+        {'class': 'text-center small weather-description'});
+    $desc.text(getWeatherDescription(data));
+    return $desc;
   };
 
   var getWeatherIconsClass = function (data) {
