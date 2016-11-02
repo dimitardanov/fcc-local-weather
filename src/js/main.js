@@ -54,7 +54,8 @@ $(function() {
     var $holder = $('<div></div>', {'class': 'text-center lead'});
     var $icon = $('<i></i>', {'class': getWeatherIconsClass(data)});
     $holder.append($icon);
-    var $temp = $('<span></span>').html(Math.round(getTemp(data).C) + '&deg;');
+    var $temp = $('<span></span>',
+        {id: 'temp-val'}).html(Math.round(getTemp(data).C) + '&deg;');
     var $deg = createC2FSwitchHTML(data);
     $holder.append($temp);
     $holder.append($deg);
