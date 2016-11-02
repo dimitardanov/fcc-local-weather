@@ -53,10 +53,11 @@ $(function() {
   };
 
   var createWeatherInfoHTML = function (data) {
-    var $holder = $('<div></div>', {'class': 'text-center lead'});
+    var $holder = $('<section></section>', {'class': 'temp text-center'});
     var $temp = $('<span></span>',
-        {id: 'temp-val'}).html(Math.round(getTemp(data).C) + '&deg;');
+        {'class': 'temp-val', id: 'temp-val'}).text(getTemp(data).C);
     var $deg = createC2FSwitchHTML(data);
+    $holder.append($('<i></i>', {'class': 'wi wi-thermometer temp-icon'}));
     $holder.append($temp);
     $holder.append($deg);
     return $holder;
@@ -139,7 +140,7 @@ $(function() {
   $('#weather-today').on('click', '#c-btn, #f-btn', function(e) {
     var $this = $(e.target);
     var $other = $($this.data('other-btn'));
-    $('#temp-val').html($this.data('temp-val') + '&deg;');
+    $('#temp-val').text($this.data('temp-val'));
     $this.removeClass('btn-default')
          .addClass('btn-primary');
     $other.addClass('btn-default')
