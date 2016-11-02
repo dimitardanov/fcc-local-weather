@@ -1,0 +1,22 @@
+
+.temp {
+  font-size: 3em;
+  position: relative;
+  margin-top: 30px;
+
+  .temp-icon {
+    font-size: 1.5em;
+    position: absolute;
+    top: 0.2em;
+    left: 0;
+  }
+
+  .temp-block {
+    margin-left: 1.2em;
+
+    .temp-val {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}
