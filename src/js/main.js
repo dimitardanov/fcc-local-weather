@@ -129,6 +129,11 @@ $(function() {
     return dayStr;
   };
 
+  var createFlickrTextSearchStr = function (data) {
+    var searchStr = getWeatherDescription(data) + ' ' + determineDayOrNight(data);
+    return searchStr;
+  };
+
 
   var getTown = function (data) {
     return data.name;
