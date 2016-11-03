@@ -131,7 +131,7 @@ $(function() {
   };
 
   var createFlickrTextSearchStr = function (data) {
-    var searchStr = getWeatherDescription(data) + ' ' + determineDayOrNight(data);
+    var searchStr = getWeatherString(data) + ' ' + determineDayOrNight(data);
     return searchStr;
   };
 
