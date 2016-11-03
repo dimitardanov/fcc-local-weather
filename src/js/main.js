@@ -3,7 +3,7 @@
 $(function() {
   var $article = $('#weather-today');
   var openWeatherMapURL = 'http://api.openweathermap.org/data/2.5/weather?';
-  var openWeatherMapAPIKey = window.location.search.slice(5);
+  var openWeatherMapAPIKey;
   var wData = {};
   var absZeroC = -273.15;
 
@@ -170,6 +170,20 @@ $(function() {
   var getWeatherId = function (data) {
     return data.weather[0].id;
   };
+
+  var parseQueryStr = function () {
+    var qObj = {};
+    var location = window.location.search.slice(1).split('&');
+    location.forEach(function (item) {
+      kv = item.split('=');
+      qObj[kv[0]] = kv[1];
+    });
+    return qObj;
+  };
+
+  queryStr = parseQueryStr();
+  openWeatherMapAPIKey = queryStr.owm;
+  flickrQueryData.api_key = queryStr.api_key;
 
   $('#weather-today').on('click', '#c-btn, #f-btn', function(e) {
     var $this = $(e.target);
