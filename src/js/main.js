@@ -7,6 +7,7 @@ $(function() {
   var wData = {};
   var absZeroC = -273.15;
 
+  var maxNumPhotos = 10;
   var latTol = 2;
   var lonTol = 1;
   var fData = [];
@@ -168,6 +169,24 @@ $(function() {
         }
       });
     }
+  };
+
+  var selectPhoto = function (fData) {
+    if (fData.length === 1) {
+      return fData[0];
+    }
+
+    fData = fData.sort(function (a, b) {
+      return parseInt(b.views, 10) - parseInt(a.views, 10);
+    });
+    fData = fData.filter(function (item) {
+      return item.hasOwnProperty('url_o') && item.hasOwnProperty('url_s');
+    });
+    if (fData.length > maxNumPhotos) {
+      fData = fData.slice(0, maxNumPhotos);
+    }
+    var randIndex = Math.floor(Math.random() * fData.length);
+    return fData[randIndex];
   };
 
   var getTown = function (data) {
