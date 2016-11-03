@@ -15,12 +15,13 @@ $(function() {
     method: 'flickr.photos.search',
     api_key: '',
     text: '',
-    max_taken_date: '',
     sort: 'relevance,interestingness-desc',
     bbox: '',
-    accuracy: 3,
     safe_search: 1,
+    privacy_filter: 1,
     extras: 'date_taken,url_s,url_o,views',
+    format: 'json',
+    nojsoncallback: 1
   };
 
   var getWeather = function (pos) {
