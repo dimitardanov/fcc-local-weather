@@ -40,6 +40,7 @@ $(function() {
         wData = data;
         console.log(data);
         addWeatherHTML(wData);
+        searchFlickrPhotos(wData);
       },
       error: function (jqxhr, status, error) {
         console.log(jqxhr);
@@ -144,6 +145,29 @@ $(function() {
     var lonMax = Math.min(lon + lonTol, 180);
     var bbox = [lonMin, latMin, lonMax, latMax];
     return bbox.join(',');
+  };
+
+  var searchFlickrPhotos = function (data) {
+    if (flickrQueryData.api_key !== '') {
+      flickrQueryData.text = createFlickrTextSearchStr(data);
+      flickrQueryData.bbox = createFlickrBboxStr(data);
+      console.log(flickrQueryData);
+      $.ajax({
+        url: flickrURL,
+        data: flickrQueryData,
+        method: 'GET',
+        crossDomain: true,
+        jsonp: false,
+        dataType: 'json',
+        success: function (data, status, jqxhr) {
+          console.log(data);
+          console.log(status);
+        },
+        error: function (jqxhr, status, error) {
+          console.log(error);
+        }
+      });
+    }
   };
 
   var getTown = function (data) {
