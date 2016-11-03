@@ -7,6 +7,21 @@ $(function() {
   var wData = {};
   var absZeroC = -273.15;
 
+  var latTol = 5;
+  var lonTol = 10;
+  var fData = [];
+  var flickrURL = 'https://api.flickr.com/services/rest/?';
+  var flickrQueryData = {
+    method: 'flickr.photos.search',
+    api_key: '',
+    text: '',
+    max_taken_date: '',
+    sort: 'relevance,interestingness-desc',
+    bbox: '',
+    accuracy: 3,
+    safe_search: 1,
+    extras: 'date_taken,url_s,url_o,views',
+  };
 
   var getWeather = function (pos) {
     $.ajax({
