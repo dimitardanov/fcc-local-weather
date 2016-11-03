@@ -134,6 +134,16 @@ $(function() {
     return searchStr;
   };
 
+  var createFlickrBboxStr = function (data) {
+    var lon = getWeatherCoords(data).lon;
+    var lat = getWeatherCoords(data).lat;
+    var latMin = Math.max(lat - latTol, -90);
+    var latMax = Math.min(lat + latTol, 90);
+    var lonMin = Math.max(lon - lonTol, -180);
+    var lonMax = Math.min(lon + lonTol, 180);
+    var bbox = [lonMin, latMin, lonMax, latMax];
+    return bbox.join(',');
+  };
 
   var getTown = function (data) {
     return data.name;
