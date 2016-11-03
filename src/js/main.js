@@ -7,8 +7,8 @@ $(function() {
   var wData = {};
   var absZeroC = -273.15;
 
-  var latTol = 5;
-  var lonTol = 10;
+  var latTol = 2;
+  var lonTol = 1;
   var fData = [];
   var flickrURL = 'https://api.flickr.com/services/rest/?';
   var flickrQueryData = {
