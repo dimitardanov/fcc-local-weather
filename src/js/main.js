@@ -171,6 +171,10 @@ $(function() {
     return data.weather[0].id;
   };
 
+  var getWeatherCoords = function (data) {
+    return {lon: data.coord.lon, lat: data.coord.lat};
+  }
+
   var parseQueryStr = function () {
     var qObj = {};
     var location = window.location.search.slice(1).split('&');
