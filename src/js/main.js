@@ -91,11 +91,15 @@ $(function() {
 
   var getWeatherIconsClass = function (data) {
     var prefix = 'wi wi-owm-';
-    prefix = prefix + getDayNightStr(data);
+    var dayStr = determineDayOrNight(data);
+    if (dayStr.length === 1) {
+      prefix = prefix + dayStr + '-';
+    }
     return prefix + getWeatherId(data);
   };
 
-  var getDayNightStr = function (data) {
+
+  var determineDayOrNight = function (data) {
     var dayStr = '';
     var icon = getWeatherIcon(data);
     if (typeof icon !== 'string' || icon.length === 0) {
@@ -103,9 +107,9 @@ $(function() {
     }
     var lastIconChar = icon[icon.length -1];
     if (lastIconChar === 'd') {
-      dayStr = 'day-';
+      dayStr = 'day';
     } else if (lastIconChar === 'n') {
-      dayStr = 'night-';
+      dayStr = 'night';
     }
     return dayStr;
   };
