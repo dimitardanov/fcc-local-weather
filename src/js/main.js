@@ -37,6 +37,7 @@ $(function() {
       dataType: 'json',
       success: function (data, status, jqxhr) {
         wData = data;
+        console.log(data);
         addWeatherHTML(wData);
       },
       error: function (jqxhr, status, error) {
@@ -45,7 +46,6 @@ $(function() {
         console.log(error);
       },
       complete: function (jqxhr, status) {
-        console.log(jqxhr);
         console.log(status);
       }
     });
