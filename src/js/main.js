@@ -189,6 +189,43 @@ $(function() {
     return fData[randIndex];
   };
 
+  var showPhoto = function (data) {
+    var $bgImage = $('<div></div>');
+    $bgImage.css({
+      'opacity': 0,
+      'transition': 'opacity 1s'
+    })
+    var offset = '-50px';
+    $bgImage.css({
+      'background-image': 'url(' + data.url_s + ')',
+      'background-position': '50% 50%',
+      'background-repeat': 'norepeat',
+      'background-size': 'cover',
+      'filter': 'blur(20px)',
+      'position': 'fixed',
+      'top': offset,
+      'bottom': offset,
+      'left': offset,
+      'right': offset,
+      'z-index': -1000,
+      'opacity': 1,
+      'transition': 'opacity 5s'
+    });
+    $('body').append($bgImage);
+    var img = new Image();
+    img.addEventListener('load', function() {
+      $('body').css({
+        'background-repeat': 'norepeat',
+        'background-image': 'url(' + img.src + ')',
+        'background-size': 'cover'
+      });
+      $bgImage.css({
+        'opacity': 0
+      });
+    }, false);
+    img.src = data.url_o;
+  };
+
   var getTown = function (data) {
     return data.name;
   };
