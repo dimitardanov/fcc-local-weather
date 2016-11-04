@@ -149,7 +149,7 @@ $(function() {
   };
 
   var searchFlickrPhotos = function (data) {
-    if (flickrQueryData.api_key !== '') {
+    if (flickrQueryData.hasOwnProperty('api_key')) {
       flickrQueryData.text = createFlickrTextSearchStr(data);
       flickrQueryData.bbox = createFlickrBboxStr(data);
       console.log(flickrQueryData);
@@ -161,8 +161,8 @@ $(function() {
         jsonp: false,
         dataType: 'json',
         success: function (data, status, jqxhr) {
-          fData = data.photos.photo;
-          if (fData.length >= 1) {
+          if (data.photos.total >= 1) {
+            fData = data.photos.photo;
             var photoData = selectPhoto(fData);
             console.log(photoData);
             showPhoto(photoData);
