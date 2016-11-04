@@ -219,8 +219,9 @@ $(function() {
     var img = new Image();
     img.addEventListener('load', function() {
       $('body').css({
-        'background-repeat': 'norepeat',
         'background-image': 'url(' + img.src + ')',
+        'background-position': '50% 50%',
+        'background-repeat': 'norepeat',
         'background-size': 'cover'
       });
       $bgImage.css({
