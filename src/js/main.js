@@ -198,7 +198,7 @@ $(function() {
     $bgImage.css({
       'opacity': 0,
       'transition': 'opacity 1s'
-    })
+    });
     var offset = '-50px';
     $bgImage.css({
       'background-image': 'url(' + data.url_s + ')',
