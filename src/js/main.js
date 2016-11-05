@@ -194,39 +194,19 @@ $(function() {
   };
 
   var showPhoto = function (data) {
-    var $bgImage = $('<div></div>');
+    var $body = $('body');
+    var $bgCurtain = $('.cover');
+    var $bgImage = $('.bg-image');
     $bgImage.css({
-      'opacity': 0,
-      'transition': 'opacity 1s'
+      'background-image': 'url(' + data.url_s + ')'
     });
-    var offset = '-50px';
-    $bgImage.css({
-      'background-image': 'url(' + data.url_s + ')',
-      'background-position': '50% 50%',
-      'background-repeat': 'norepeat',
-      'background-size': 'cover',
-      'filter': 'blur(20px)',
-      'position': 'fixed',
-      'top': offset,
-      'bottom': offset,
-      'left': offset,
-      'right': offset,
-      'z-index': -1000,
-      'opacity': 1,
-      'transition': 'opacity 5s'
-    });
-    $('body').append($bgImage);
+    $bgCurtain.addClass('transparent');
     var img = new Image();
     img.addEventListener('load', function() {
-      $('body').css({
-        'background-image': 'url(' + img.src + ')',
-        'background-position': '50% 50%',
-        'background-repeat': 'norepeat',
-        'background-size': 'cover'
+      $body.css({
+        'background-image': 'url(' + img.src + ')'
       });
-      $bgImage.css({
-        'opacity': 0
-      });
+      $bgImage.addClass('transparent');
     }, false);
     img.src = data.url_o;
   };
