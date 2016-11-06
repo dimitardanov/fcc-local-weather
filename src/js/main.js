@@ -8,6 +8,10 @@ $(function() {
   var absZeroC = -273.15;
 
   var maxNumPhotos = 10;
+  var imageSizeMarkers = ['t', 'm', 'n', 'z', 'c', 'l', 'b', 'h', 'k', 'o'];
+  var flickrImageSuffixURLs = imageSizeMarkers.map(
+    function (m) { return 'url_' + m; }
+  );
   var latTol = 2;
   var lonTol = 1;
   var fData = [];
@@ -20,7 +24,7 @@ $(function() {
     bbox: '',
     safe_search: 1,
     privacy_filter: 1,
-    extras: 'date_taken,url_s,url_o,views',
+    extras: 'date_taken,views' + ',' + flickrImageSuffixURLs.join(','),
     format: 'json',
     nojsoncallback: 1
   };
@@ -184,7 +188,7 @@ $(function() {
       return parseInt(b.views, 10) - parseInt(a.views, 10);
     });
     fData = fData.filter(function (item) {
-      return item.hasOwnProperty('url_o') && item.hasOwnProperty('url_s');
+      return item.hasOwnProperty('url_o') && item.hasOwnProperty('url_t');
     });
     if (fData.length > maxNumPhotos) {
       fData = fData.slice(0, maxNumPhotos);
@@ -198,7 +202,7 @@ $(function() {
     var $bgCurtain = $('.cover');
     var $bgImage = $('.bg-image');
     $bgImage.css({
-      'background-image': 'url(' + data.url_s + ')'
+      'background-image': 'url(' + data.url_t + ')'
     });
     $bgCurtain.addClass('transparent');
     var img = new Image();
