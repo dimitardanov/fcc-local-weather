@@ -194,8 +194,9 @@ $(function() {
     fData = fData.sort(function (a, b) {
       return parseInt(b.views, 10) - parseInt(a.views, 10);
     });
+    fData = createImageURLData(fData);
     fData = fData.filter(function (item) {
-      return item.hasOwnProperty('url_o') && item.hasOwnProperty('url_t');
+      return item.hasOwnProperty('url_t') && item.hasOwnProperty('url');
     });
     if (fData.length > maxNumPhotos) {
       fData = fData.slice(0, maxNumPhotos);
@@ -257,7 +258,7 @@ $(function() {
       });
       $bgImage.addClass('transparent');
     }, false);
-    img.src = data.url_o;
+    img.src = data.url;
   };
 
   var getTown = function (data) {
