@@ -25,7 +25,7 @@ $(function() {
     method: 'flickr.photos.search',
     api_key: '',
     text: '',
-    sort: 'relevance,interestingness-desc',
+    sort: 'relevance',//interestingness-desc',
     bbox: '',
     safe_search: 1,
     media: 'photos',
