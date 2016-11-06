@@ -200,6 +200,22 @@ $(function() {
     return fData[randIndex];
   };
 
+  var createImageURLData = function (items) {
+    items.forEach(function (item) {
+      createImageURLDataPerItem(item);
+    });
+    return items;
+  };
+
+  var createImageURLDataPerItem = function (item) {
+    imageSizeMarkers.forEach(function (m) {
+      if (isURLImageWithinBounds(item, m)) {
+        item.url = item['url_' + m];
+      }
+    });
+    return item;
+  };
+
   var getImageWidth = function (item, marker) {
     return item['width_' + marker];
   };
