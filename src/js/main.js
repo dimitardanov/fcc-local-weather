@@ -2,7 +2,7 @@
 
 $(function() {
   var imageMinCoeff = 0.9;
-  var imageMaxCoeff = 1.4;
+  var imageMaxCoeff = 1.6;
 
   var $article = $('#weather-today');
   var openWeatherMapURL = 'http://api.openweathermap.org/data/2.5/weather?';
