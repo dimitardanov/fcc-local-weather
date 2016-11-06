@@ -17,6 +17,8 @@ $(function() {
   );
   var flickrSearchTermsExclude = ['history', 'war', 'visitor'];
   var flickrSearchTermsInclude = ['city'];//, 'landscape', 'weather'];
+  var flickrSearchAdditionalTerms = ['landscape', 'nature', 'weather'];
+  var firstSearch = true;
   var latTol = 2;
   var lonTol = 1;
   var fData = [];
@@ -144,7 +146,12 @@ $(function() {
 
   var createFlickrTextSearchStr = function (data) {
     var searchStr = getWeatherString(data) + ' ' + determineDayOrNight(data);
-    searchStr = searchStr + ' ' + flickrSearchTermsInclude.join(' ') + ' -' + flickrSearchTermsExclude.join(' -');
+    if (firstSearch) {
+      searchStr = searchStr + ' ' + flickrSearchTermsInclude.join(' ');
+    } else {
+      searchStr = searchStr + ' ' + flickrSearchAdditionalTerms.join(' ');
+    }
+    searchStr = searchStr + ' -' + flickrSearchTermsExclude.join(' -');
     return searchStr;
   };
 
@@ -159,16 +166,16 @@ $(function() {
     return bbox.join(',');
   };
 
-  var searchFlickrPhotos = function (data) {
+  var searchFlickrPhotos = function (wdata) {
     if (flickrQueryData.hasOwnProperty('api_key')) {
-      flickrQueryData.text = createFlickrTextSearchStr(data);
-      flickrQueryData.bbox = createFlickrBboxStr(data);
+      flickrQueryData.text = createFlickrTextSearchStr(wdata);
+      flickrQueryData.bbox = createFlickrBboxStr(wdata);
       console.log(flickrQueryData);
-      makeFlickrAPICall();
+      makeFlickrAPICall(wdata);
     }
   };
 
-  var makeFlickrAPICall = function () {
+  var makeFlickrAPICall = function (wdata) {
     $.ajax({
       url: flickrURL,
       data: flickrQueryData,
@@ -184,7 +191,9 @@ $(function() {
           showPhoto(photoData);
         } else {
           delete flickrQueryData.bbox;
-          makeFlickrAPICall();
+          firstSearch = false;
+          flickrQueryData.text = createFlickrTextSearchStr(wdata);
+          makeFlickrAPICall(wdata);
         }
       },
       error: function (jqxhr, status, error) {
