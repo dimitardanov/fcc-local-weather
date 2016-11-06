@@ -164,26 +164,30 @@ $(function() {
       flickrQueryData.text = createFlickrTextSearchStr(data);
       flickrQueryData.bbox = createFlickrBboxStr(data);
       console.log(flickrQueryData);
-      $.ajax({
-        url: flickrURL,
-        data: flickrQueryData,
-        method: 'GET',
-        crossDomain: true,
-        jsonp: false,
-        dataType: 'json',
-        success: function (data, status, jqxhr) {
-          if (data.photos.total >= 1) {
-            fData = data.photos.photo;
-            var photoData = selectPhoto(fData);
-            console.log(photoData);
-            showPhoto(photoData);
-          }
-        },
-        error: function (jqxhr, status, error) {
-          console.log(error);
-        }
-      });
+      makeFlickrAPICall(data);
     }
+  };
+
+  var makeFlickrAPICall = function (data) {
+    $.ajax({
+      url: flickrURL,
+      data: flickrQueryData,
+      method: 'GET',
+      crossDomain: true,
+      jsonp: false,
+      dataType: 'json',
+      success: function (data, status, jqxhr) {
+        if (data.photos.total >= 1) {
+          fData = data.photos.photo;
+          var photoData = selectPhoto(fData);
+          console.log(photoData);
+          showPhoto(photoData);
+        }
+      },
+      error: function (jqxhr, status, error) {
+        console.log(error);
+      }
+    });
   };
 
   var selectPhoto = function (fData) {
