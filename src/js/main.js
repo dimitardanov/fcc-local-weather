@@ -122,7 +122,7 @@ $(function() {
   var getWeatherIconsClass = function (data) {
     var prefix = 'wi wi-owm-';
     var dayStr = determineDayOrNight(data);
-    if (dayStr.length === 1) {
+    if (dayStr.length > 0) {
       prefix = prefix + dayStr + '-';
     }
     return prefix + getWeatherId(data);
