@@ -15,7 +15,8 @@ $(function() {
   var flickrImageSuffixURLs = imageSizeMarkers.map(
     function (m) { return 'url_' + m; }
   );
-  var flickrSearchTerms = ['city', 'landscape', 'weather'];
+  var flickrSearchTermsExclude = ['history', 'war', 'visitor'];
+  var flickrSearchTermsInclude = ['city'];//, 'landscape', 'weather'];
   var latTol = 2;
   var lonTol = 1;
   var fData = [];
@@ -143,7 +144,7 @@ $(function() {
 
   var createFlickrTextSearchStr = function (data) {
     var searchStr = getWeatherString(data) + ' ' + determineDayOrNight(data);
-    searchStr = searchStr + ' ' + flickrSearchTerms.join(' ');
+    searchStr = searchStr + ' ' + flickrSearchTermsInclude.join(' ') + ' -' + flickrSearchTermsExclude.join(' -');
     return searchStr;
   };
 
