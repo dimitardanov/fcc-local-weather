@@ -197,6 +197,14 @@ $(function() {
     return fData[randIndex];
   };
 
+  var getImageWidth = function (item, marker) {
+    return item['width_' + marker];
+  };
+
+  var getImageHeight = function (item, marker) {
+    return item['height_' + marker];
+  };
+
   var showPhoto = function (data) {
     var $body = $('body');
     var $bgCurtain = $('.cover');
