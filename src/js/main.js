@@ -189,7 +189,7 @@ $(function() {
           var photoData = selectPhoto(fData);
           console.log(photoData);
           showPhoto(photoData);
-        } else {
+        } else  if (firstSearch) {
           delete flickrQueryData.bbox;
           firstSearch = false;
           flickrQueryData.text = createFlickrTextSearchStr(wdata);
