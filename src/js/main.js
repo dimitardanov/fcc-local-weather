@@ -10,7 +10,7 @@ $(function() {
   var wData = {};
   var absZeroC = -273.15;
 
-  var maxNumPhotos = 10;
+  var maxNumPhotos = 1000;
   var imageSizeMarkers = ['t', 'm', 'n', 'z', 'c', 'l', 'b', 'h', 'k', 'o'];
   var flickrImageSuffixURLs = imageSizeMarkers.map(
     function (m) { return 'url_' + m; }
