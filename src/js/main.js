@@ -164,11 +164,11 @@ $(function() {
       flickrQueryData.text = createFlickrTextSearchStr(data);
       flickrQueryData.bbox = createFlickrBboxStr(data);
       console.log(flickrQueryData);
-      makeFlickrAPICall(data);
+      makeFlickrAPICall();
     }
   };
 
-  var makeFlickrAPICall = function (data) {
+  var makeFlickrAPICall = function () {
     $.ajax({
       url: flickrURL,
       data: flickrQueryData,
@@ -182,6 +182,9 @@ $(function() {
           var photoData = selectPhoto(fData);
           console.log(photoData);
           showPhoto(photoData);
+        } else {
+          delete flickrQueryData.bbox;
+          makeFlickrAPICall();
         }
       },
       error: function (jqxhr, status, error) {
