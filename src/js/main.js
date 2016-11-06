@@ -1,6 +1,9 @@
 
 
 $(function() {
+  var imageMinCoeff = 0.9;
+  var imageMaxCoeff = 1.4;
+
   var $article = $('#weather-today');
   var openWeatherMapURL = 'http://api.openweathermap.org/data/2.5/weather?';
   var openWeatherMapAPIKey;
@@ -204,6 +207,19 @@ $(function() {
   var getImageHeight = function (item, marker) {
     return item['height_' + marker];
   };
+
+  var isURLImageWithinBounds = function (item, marker) {
+    var imageW = getImageWidth(item, marker);
+    var imageH = getImageHeight(item, marker);
+    var screenW = screen.width;
+    var screenH = screen.height;
+    var minReqW = imageMinCoeff * imageW <= screenW;
+    var minReqH = imageMinCoeff * imageH <= screenH;
+    var maxReqW = screenW <= imageMaxCoeff * imageW;
+    var maxReqH = screenH <= imageMaxCoeff * imageH;
+    return ((minReqW && maxReqW) && (minReqH && maxReqH));
+  };
+
 
   var showPhoto = function (data) {
     var $body = $('body');
