@@ -209,8 +209,9 @@ $(function() {
 
   var createImageURLDataPerItem = function (item) {
     imageSizeMarkers.forEach(function (m) {
-      if (isURLImageWithinBounds(item, m)) {
-        item.url = item['url_' + m];
+      var prop = 'url_' + m;
+      if (item.hasOwnProperty(prop) && isURLImageWithinBounds(item, m)) {
+        item.url = item[prop];
       }
     });
     return item;
