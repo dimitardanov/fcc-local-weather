@@ -18,6 +18,7 @@ $(function() {
   var flickrSearchTermsExclude = ['history', 'war', 'visitor'];
   var flickrSearchTermsInclude = ['city'];//, 'landscape', 'weather'];
   var flickrSearchAdditionalTerms = ['nature'];
+  var flickrExtras = ['date_taken', 'views', 'license', 'owner_name'];
   var imageLicenses = [1, 2, 3, 4, 5, 6, 7, 8];
   var firstSearch = true;
   var latTol = 2;
@@ -34,7 +35,7 @@ $(function() {
     safe_search: 1,
     media: 'photos',
     privacy_filter: 1,
-    extras: 'date_taken,views' + ',' + flickrImageSuffixURLs.join(','),
+    extras: flickrExtras.concat(flickrImageSuffixURLs).join(','),
     format: 'json',
     nojsoncallback: 1
   };
