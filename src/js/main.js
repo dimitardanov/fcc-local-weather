@@ -17,7 +17,7 @@ $(function() {
   );
   var flickrSearchTermsExclude = ['history', 'war', 'visitor'];
   var flickrSearchTermsInclude = ['city'];//, 'landscape', 'weather'];
-  var flickrSearchAdditionalTerms = ['landscape', 'nature', 'weather'];
+  var flickrSearchAdditionalTerms = ['nature'];
   var firstSearch = true;
   var latTol = 2;
   var lonTol = 1;
