@@ -18,6 +18,7 @@ $(function() {
   var flickrSearchTermsExclude = ['history', 'war', 'visitor'];
   var flickrSearchTermsInclude = ['city'];//, 'landscape', 'weather'];
   var flickrSearchAdditionalTerms = ['nature'];
+  var imageLicenses = [1, 2, 3, 4, 5, 6, 7, 8];
   var firstSearch = true;
   var latTol = 2;
   var lonTol = 1;
@@ -28,6 +29,7 @@ $(function() {
     api_key: '',
     text: '',
     sort: 'relevance',//interestingness-desc',
+    license: imageLicenses.join(','),
     bbox: '',
     safe_search: 1,
     media: 'photos',
