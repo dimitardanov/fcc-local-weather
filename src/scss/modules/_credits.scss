@@ -32,6 +32,11 @@ footer {
     width: 5em;
     background: rgba(0, 0, 0, 0.6);
     padding: 4px;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
 
