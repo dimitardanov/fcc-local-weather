@@ -360,6 +360,13 @@ $(function() {
     setElementCredits('.photo-title', photo_title, photo_url);
   };
 
+  var setLicenseCredits = function (data) {
+    var id = parseInt(data.license, 10);
+    var licenseText = licenses[id].abbr;
+    var licenseUrl = licenses[id].url;
+    setElementCredits('.photo-license', licenseText, licenseUrl);
+  };
+
   queryStr = parseQueryStr();
   openWeatherMapAPIKey = queryStr.owm;
   flickrQueryData.api_key = queryStr.api_key;
