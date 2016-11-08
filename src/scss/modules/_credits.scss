@@ -12,4 +12,14 @@ footer {
   padding-bottom: 10px;
   color: #bbb;
 
+
+  #credits-toggle {
+    font-size: 1.5em;
+    position: absolute;
+    right: 0;
+    top: -37px;
+    width: 5em;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 4px;
+  }
 }
