@@ -342,10 +342,10 @@ $(function() {
     8: {abbr: 'U.S. Government Works', name: 'United States Government Work', url: 'http://www.usa.gov/copyright.shtml'}
   };
 
-  var setPhotoCredits = function (selector, text, url) {
+  var setElementCredits = function (selector, text, url) {
     var $element = $(selector);
     $element.text(text);
-    $element.url(url);
+    $element.attr('href', url);
   };
 
   queryStr = parseQueryStr();
