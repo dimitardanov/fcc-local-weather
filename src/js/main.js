@@ -278,6 +278,7 @@ $(function() {
       $bgImage.addClass('transparent');
     }, false);
     img.src = data.url;
+    setCredits(data);
   };
 
   var getTown = function (data) {
@@ -365,6 +366,12 @@ $(function() {
     var licenseText = licenses[id].abbr;
     var licenseUrl = licenses[id].url;
     setElementCredits('.photo-license', licenseText, licenseUrl);
+  };
+
+  var setCredits = function (data) {
+    setAuthorCredits(data);
+    setPhotoCredits(data);
+    setLicenseCredits(data);
   };
 
   queryStr = parseQueryStr();
