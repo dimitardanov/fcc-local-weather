@@ -344,6 +344,10 @@ $(function() {
           .removeClass('btn-primary');
   });
 
+  $('#credits-toggle').on('click', function () {
+    $('.credits').toggleClass('open');
+  });
+
   if ((openWeatherMapAPIKey.length>0) && ('geolocation' in navigator)) {
     navigator.geolocation.getCurrentPosition(getWeather);
   } else {
