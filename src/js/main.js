@@ -354,6 +354,12 @@ $(function() {
     setElementCredits('.photo-author', owner_name, owner_url);
   };
 
+  var setPhotoCredits = function (data) {
+    var photo_title = data.title;
+    var photo_url = 'https://www.flickr.com/photos/' + data.owner + '/' + data.id;
+    setElementCredits('.photo-title', photo_title, photo_url);
+  };
+
   queryStr = parseQueryStr();
   openWeatherMapAPIKey = queryStr.owm;
   flickrQueryData.api_key = queryStr.api_key;
