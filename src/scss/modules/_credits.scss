@@ -1,10 +1,20 @@
 
 footer {
   position: absolute;
-  bottom: -83px;
   left: 0;
   right: 0;
-  height: auto;
+  bottom: -140px;
+  height: 140px;
+
+  @media (min-width: $screen-xs-min) {
+    bottom: -120px;
+    height: 120px;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    bottom: -100px;
+    height: 100px;
+  }
 
   text-align: center;
   background-color: rgba(0, 0, 0, 0.6);
