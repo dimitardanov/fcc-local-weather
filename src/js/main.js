@@ -348,6 +348,12 @@ $(function() {
     $element.attr('href', url);
   };
 
+  var setAuthorCredits = function (data) {
+    var owner_name = data.ownername;
+    var owner_url = 'https://www.flickr.com/people/' + data.owner;
+    setElementCredits('.photo-author', owner_name, owner_url);
+  };
+
   queryStr = parseQueryStr();
   openWeatherMapAPIKey = queryStr.owm;
   flickrQueryData.api_key = queryStr.api_key;
