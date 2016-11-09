@@ -59,6 +59,7 @@ $(function() {
         searchFlickrPhotos(wData);
       },
       error: function (jqxhr, status, error) {
+        $article.html($('<div></div>', {'class': 'alert alert-warning'}).text('Can\'t fetch the weather, plase try again.'));
         console.log(jqxhr);
         console.log(status);
         console.log(error);
