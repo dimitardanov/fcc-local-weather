@@ -13,4 +13,8 @@
     opacity: 0;
     transition: opacity 2s;
   }
+
+  h2, p, i, span {
+    text-shadow: rgba(255, 255, 255, 0.6) 0 0 1px;
+  }
 }
