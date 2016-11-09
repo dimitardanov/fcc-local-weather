@@ -1,7 +1,7 @@
 
 
 $(function() {
-  var imageMinCoeff = 0.9;
+  var imageMinCoeff = 0.8;
   var imageMaxCoeff = 1.6;
 
   var $article = $('#weather-today');
