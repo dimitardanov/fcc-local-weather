@@ -6,3 +6,18 @@
   background-size: cover;
   background-attachment: fixed;
 }
+
+
+@mixin frosty-glass ($blur-radius) {
+  content: ' ';
+  overflow: hidden;
+  display: block;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  @include bg-pos;
+  filter: blur($blur-radius);
+}
