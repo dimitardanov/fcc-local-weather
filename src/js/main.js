@@ -292,7 +292,7 @@ $(function() {
     var tempK = data.main.temp;
     var tempC = Math.round(tempK + absZeroC);
     tempK = Math.round(tempK);
-    var tempF = celsius2fahrenheit(tempC);
+    var tempF = Math.round(celsius2fahrenheit(tempC));
     return {K: tempK, C: tempC, F: tempF};
   };
 
