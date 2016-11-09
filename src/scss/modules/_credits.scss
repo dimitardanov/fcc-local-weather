@@ -24,6 +24,12 @@ footer {
 
   transition: bottom 0.3s;
 
+  &::before {
+    @include frosty-glass(5px);
+    opacity: 0;
+    transition: opacity 2s;
+  }
+
   #credits-toggle {
     font-size: 1.5em;
     position: absolute;
