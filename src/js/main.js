@@ -371,6 +371,7 @@ $(function() {
     setAuthorCredits(data);
     setPhotoCredits(data);
     setLicenseCredits(data);
+    activateCredits();
   };
 
   queryStr = parseQueryStr();
@@ -387,9 +388,12 @@ $(function() {
           .removeClass('btn-primary');
   });
 
-  $('#credits-toggle').on('click', function () {
-    $('.credits').toggleClass('open');
-  });
+  var activateCredits = function () {
+    $('#credits-toggle').on('click', function () {
+      $('.credits').toggleClass('open');
+    });
+  };
+
 
   var showLocationUnavailableMsg = function () {
     var $alert = $('<div></div>', {'class': 'alert alert-warning text-center'});
