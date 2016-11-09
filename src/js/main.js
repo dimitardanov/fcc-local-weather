@@ -401,9 +401,9 @@ $(function() {
   };
 
   if ((openWeatherMapAPIKey.length>0) && ('geolocation' in navigator)) {
-    navigator.geolocation.getCurrentPosition(getWeather);
+    navigator.geolocation.getCurrentPosition(getWeather, showLocationUnavailableMsg);
   } else {
-    $article.html($('<div></div>', {'class': 'alert alert-warning text-center'}).text('The sun will shine this night, expect a full moon at noon ').append($('<strong></strong>').text(':)')));
+    showLocationUnavailableMsg();
   }
 
 
