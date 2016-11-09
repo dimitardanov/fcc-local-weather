@@ -272,10 +272,9 @@ $(function() {
     $bgCurtain.addClass('transparent');
     var img = new Image();
     img.addEventListener('load', function() {
-      $body.css({
-        'background-image': 'url(' + img.src + ')'
-      });
+      $('head').append('<style>body {background-image: url(' + data.url + ');}</style>');
       $bgImage.addClass('transparent');
+      $('head').append('<style>.weather-report:before {background-image: url(' + data.url + ');}</style>');
     }, false);
     img.src = data.url;
     setCredits(data);
