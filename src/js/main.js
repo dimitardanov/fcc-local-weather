@@ -8,8 +8,8 @@ $(function() {
   var wData = {};
   var absZeroC = -273.15;
 
-  var licenses = require('./lib/options/flickr.js').imgLicenses;
-  var flickrOpts = require('./lib/options/flickr.js').searchOpts;
+  var licenses = require('./lib/options/licenses.js');
+  var flickrOpts = require('./lib/options/flickr.js');
 
 
   var imageSizeMarkers = flickrOpts.getImageSizeMarkers();
