@@ -3,28 +3,22 @@
 $(function() {
 
   var $article = $('#weather-today');
-  var openWeatherMapURL = 'http://api.openweathermap.org/data/2.5/weather?';
-  var openWeatherMapAPIKey;
-  var wData = {};
   var absZeroC = -273.15;
 
   var licenses = require('./lib/options/licenses.js');
   var flickrOpts = require('./lib/options/flickr.js');
+  var owm = require('./lib/options/openWeatherMap.js');
 
 
-  var imageSizeMarkers = flickrOpts.getImageSizeMarkers();
+  var wData = {};
   var firstSearch = true;
   var fData = [];
 
 
-  var getWeather = function (pos) {
+  var getWeather = function () {
     $.ajax({
-      url: openWeatherMapURL,
-      data: {
-        lon: pos.coords.longitude,
-        lat: pos.coords.latitude,
-        APPID: openWeatherMapAPIKey
-      },
+      url: owm.getURL(),
+      data: owm.getQueryData(),
       method: 'GET',
       crossDomain: true,
       jsonp: false,
@@ -343,7 +337,7 @@ $(function() {
   };
 
   queryStr = parseQueryStr();
-  openWeatherMapAPIKey = queryStr.owm;
+  owm.setAPIKey(queryStr.owm);
   flickrOpts.setAPIKey(queryStr.api_key);
 
   $('#weather-today').on('click', '#c-btn, #f-btn', function(e) {
@@ -372,8 +366,13 @@ $(function() {
     $article.html($alert);
   };
 
-  if ((openWeatherMapAPIKey.length>0) && ('geolocation' in navigator)) {
-    navigator.geolocation.getCurrentPosition(getWeather, showLocationUnavailableMsg);
+  if ((owm.hasAPIKey()) && ('geolocation' in navigator)) {
+    navigator.geolocation.getCurrentPosition(
+      function (pos) {
+        owm.setCoords(pos.coords.longitude, pos.coords.latitude);
+        getWeather();
+      },
+      showLocationUnavailableMsg);
   } else {
     showLocationUnavailableMsg();
   }
