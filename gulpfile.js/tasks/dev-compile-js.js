@@ -2,6 +2,7 @@ var config = require('../config');
 
 var path = require('path');
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var browserify = require('browserify');
 var source = require("vinyl-source-stream");
 var buffer = require('vinyl-buffer');
@@ -19,6 +20,7 @@ function jscompile () {
   });
 
   return b.bundle()
+    .on('error', gutil.log.bind(gutil, gutil.colors.red('Browserify:')))
     .pipe(source(config.files.jsmain))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
