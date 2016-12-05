@@ -1,8 +1,6 @@
 
 
 $(function() {
-  var imageMinCoeff = 0.8;
-  var imageMaxCoeff = 1.6;
 
   var $article = $('#weather-today');
   var openWeatherMapURL = 'http://api.openweathermap.org/data/2.5/weather?';
@@ -10,35 +8,14 @@ $(function() {
   var wData = {};
   var absZeroC = -273.15;
 
-  var maxNumPhotos = 1000;
-  var imageSizeMarkers = ['t', 'm', 'n', 'z', 'c', 'l', 'b', 'h', 'k', 'o'];
-  var flickrImageSuffixURLs = imageSizeMarkers.map(
-    function (m) { return 'url_' + m; }
-  );
-  var flickrSearchTermsExclude = ['history', 'war', 'visitor'];
-  var flickrSearchTermsInclude = ['city'];//, 'landscape', 'weather'];
-  var flickrSearchAdditionalTerms = ['nature'];
-  var flickrExtras = ['date_taken', 'views', 'license', 'owner_name'];
-  var imageLicenses = [1, 2, 3, 4, 5, 6, 7, 8];
+  var licenses = require('./lib/options/flickr.js').imgLicenses;
+  var flickrOpts = require('./lib/options/flickr.js').searchOpts;
+
+
+  var imageSizeMarkers = flickrOpts.getImageSizeMarkers();
   var firstSearch = true;
-  var latTol = 2;
-  var lonTol = 1;
   var fData = [];
-  var flickrURL = 'https://api.flickr.com/services/rest/?';
-  var flickrQueryData = {
-    method: 'flickr.photos.search',
-    api_key: '',
-    text: '',
-    sort: 'relevance',//interestingness-desc',
-    license: imageLicenses.join(','),
-    bbox: '',
-    safe_search: 1,
-    media: 'photos',
-    privacy_filter: 1,
-    extras: flickrExtras.concat(flickrImageSuffixURLs).join(','),
-    format: 'json',
-    nojsoncallback: 1
-  };
+
 
   var getWeather = function (pos) {
     $.ajax({
@@ -151,38 +128,39 @@ $(function() {
   var createFlickrTextSearchStr = function (data) {
     var searchStr = getWeatherString(data) + ' ' + determineDayOrNight(data);
     if (firstSearch) {
-      searchStr = searchStr + ' ' + flickrSearchTermsInclude.join(' ');
+      searchStr = searchStr + ' ' + flickrOpts.getIncludeTerms().join(' ');
     } else {
-      searchStr = searchStr + ' ' + flickrSearchAdditionalTerms.join(' ');
+      searchStr = searchStr + ' ' + flickrOpts.getAdditionalTerms().join(' ');
     }
-    searchStr = searchStr + ' -' + flickrSearchTermsExclude.join(' -');
+    searchStr = searchStr + ' -' + flickrOpts.getExcludeTerms().join(' -');
     return searchStr;
   };
 
   var createFlickrBboxStr = function (data) {
     var lon = getWeatherCoords(data).lon;
     var lat = getWeatherCoords(data).lat;
-    var latMin = Math.max(lat - latTol, -90);
-    var latMax = Math.min(lat + latTol, 90);
-    var lonMin = Math.max(lon - lonTol, -180);
-    var lonMax = Math.min(lon + lonTol, 180);
+    var coordTol = flickrOpts.getCoordTolerances();
+    var latMin = Math.max(lat - coordTol.lat, -90);
+    var latMax = Math.min(lat + coordTol.lat, 90);
+    var lonMin = Math.max(lon - coordTol.lon, -180);
+    var lonMax = Math.min(lon + coordTol.lon, 180);
     var bbox = [lonMin, latMin, lonMax, latMax];
     return bbox.join(',');
   };
 
   var searchFlickrPhotos = function (wdata) {
-    if (flickrQueryData.hasOwnProperty('api_key')) {
-      flickrQueryData.text = createFlickrTextSearchStr(wdata);
-      flickrQueryData.bbox = createFlickrBboxStr(wdata);
-      console.log(flickrQueryData);
+    if (flickrOpts.hasAPIKey()) {
+      flickrOpts.getQueryData().text = createFlickrTextSearchStr(wdata);
+      flickrOpts.getQueryData().bbox = createFlickrBboxStr(wdata);
+      console.log(flickrOpts.getQueryData());
       makeFlickrAPICall(wdata);
     }
   };
 
   var makeFlickrAPICall = function (wdata) {
     $.ajax({
-      url: flickrURL,
-      data: flickrQueryData,
+      url: flickrOpts.getURL(),
+      data: flickrOpts.getQueryData(),
       method: 'GET',
       crossDomain: true,
       jsonp: false,
@@ -194,9 +172,9 @@ $(function() {
           console.log(photoData);
           showPhoto(photoData);
         } else  if (firstSearch) {
-          delete flickrQueryData.bbox;
+          delete flickrOpts.getQueryData().bbox;
           firstSearch = false;
-          flickrQueryData.text = createFlickrTextSearchStr(wdata);
+          flickrOpts.getQueryData().text = createFlickrTextSearchStr(wdata);
           makeFlickrAPICall(wdata);
         }
       },
@@ -218,8 +196,8 @@ $(function() {
     fData = fData.filter(function (item) {
       return item.hasOwnProperty('url_t') && item.hasOwnProperty('url');
     });
-    if (fData.length > maxNumPhotos) {
-      fData = fData.slice(0, maxNumPhotos);
+    if (fData.length > flickrOpts.getMaxNumPhotos()) {
+      fData = fData.slice(0, flickrOpts.getMaxNumPhotos());
     }
     var randIndex = Math.floor(Math.random() * fData.length);
     return fData[randIndex];
@@ -233,7 +211,7 @@ $(function() {
   };
 
   var createImageURLDataPerItem = function (item) {
-    imageSizeMarkers.forEach(function (m) {
+    flickrOpts.getImageSizeMarkers().forEach(function (m) {
       var prop = 'url_' + m;
       if (item.hasOwnProperty(prop) && isURLImageWithinBounds(item, m)) {
         item.url = item[prop];
@@ -255,10 +233,10 @@ $(function() {
     var imageH = getImageHeight(item, marker);
     var screenW = screen.width;
     var screenH = screen.height;
-    var minReqW = imageMinCoeff * imageW <= screenW;
-    var minReqH = imageMinCoeff * imageH <= screenH;
-    var maxReqW = screenW <= imageMaxCoeff * imageW;
-    var maxReqH = screenH <= imageMaxCoeff * imageH;
+    var minReqW = flickrOpts.getImageSizeCoeff().min * imageW <= screenW;
+    var minReqH = flickrOpts.getImageSizeCoeff().min * imageH <= screenH;
+    var maxReqW = screenW <= flickrOpts.getImageSizeCoeff().max * imageW;
+    var maxReqH = screenH <= flickrOpts.getImageSizeCoeff().max * imageH;
     return ((minReqW && maxReqW) && (minReqH && maxReqH));
   };
 
@@ -331,17 +309,6 @@ $(function() {
     return qObj;
   };
 
-  var licenses = {
-    0: {abbr: 'All Rights Reserved', name: 'All Rights Reserved', url: '#'},
-    1: {abbr: 'CC BY-NC-SA 2.0', name: 'Attribution-NonCommercial-ShareAlike License', url: 'http://creativecommons.org/licenses/by-nc-sa/2.0/'},
-    2: {abbr: 'CC BY-NC 2.0', name: 'Attribution-NonCommercial License', url: 'http://creativecommons.org/licenses/by-nc/2.0/'},
-    3: {abbr: 'CC BY-NC-ND 2.0', name: 'Attribution-NonCommercial-NoDerivs License', url: 'http://creativecommons.org/licenses/by-nc-nd/2.0/'},
-    4: {abbr: 'CC BY 2.0', name: 'Attribution License', url: 'http://creativecommons.org/licenses/by/2.0/'},
-    5: {abbr: 'CC BY-SA 2.0', name: 'Attribution-ShareAlike License', url: 'http://creativecommons.org/licenses/by-sa/2.0/'},
-    6: {abbr: 'CC BY-ND 2.0', name: 'Attribution-NoDerivs License', url: 'http://creativecommons.org/licenses/by-nd/2.0/'},
-    7: {abbr: 'No known copyright restrictions', name: 'No known copyright restrictions', url: 'http://flickr.com/commons/usage/'},
-    8: {abbr: 'U.S. Government Works', name: 'United States Government Work', url: 'http://www.usa.gov/copyright.shtml'}
-  };
 
   var setElementCredits = function (selector, text, url) {
     var $element = $(selector);
@@ -377,7 +344,7 @@ $(function() {
 
   queryStr = parseQueryStr();
   openWeatherMapAPIKey = queryStr.owm;
-  flickrQueryData.api_key = queryStr.api_key;
+  flickrOpts.setAPIKey(queryStr.api_key);
 
   $('#weather-today').on('click', '#c-btn, #f-btn', function(e) {
     var $this = $(e.target);
