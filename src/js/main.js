@@ -2,9 +2,6 @@
 
 $(function() {
 
-  var $article = $('#weather-today');
-
-
   var flickrOpts = require('./lib/options/flickr.js');
   var owm = require('./lib/options/openWeatherMap.js');
   var flickrHelpers = require('./lib/helpers/flickr.js');
@@ -12,6 +9,7 @@ $(function() {
   var creditsRenderer = require('./lib/renderers/credits.js');
   var bgPhoto = require('./lib/renderers/bgPhoto.js');
   var weatherReport = require('./lib/renderers/weatherReport.js');
+  var errorMsg = require('./lib/renderers/errorMessages.js');
 
 
   var wData = {};
@@ -34,7 +32,7 @@ $(function() {
         searchFlickrPhotos(wData);
       },
       error: function (jqxhr, status, error) {
-        $article.html($('<div></div>', {'class': 'alert alert-warning'}).text('Can\'t fetch the weather, plase try again.'));
+        errorMsg.showWeatherUnavailable();
         console.log(jqxhr);
         console.log(status);
         console.log(error);
@@ -136,24 +134,15 @@ $(function() {
   };
 
 
-  var showLocationUnavailableMsg = function () {
-    var $alert = $('<div></div>', {'class': 'alert alert-warning text-center'});
-    var $joke = $('<p></p>').text('I guess the sun will shine tonight, expect a full moon at noon ').append($('<strong></strong>').text(':)'));
-    var $msg = $('<p></p>').text('Location, location, location, are you under cover?');
-    $alert.append($msg);
-    $alert.append($joke);
-    $article.html($alert);
-  };
-
   if ((owm.hasAPIKey()) && ('geolocation' in navigator)) {
     navigator.geolocation.getCurrentPosition(
       function (pos) {
         owm.setCoords(pos.coords.longitude, pos.coords.latitude);
         getWeather();
       },
-      showLocationUnavailableMsg);
+      errorMsg.showLocationUnavailable);
   } else {
-    showLocationUnavailableMsg();
+    errorMsg.showLocationUnavailable();
   }
 
 
