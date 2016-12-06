@@ -3,12 +3,13 @@
 $(function() {
 
   var $article = $('#weather-today');
-  var absZeroC = -273.15;
+
 
   var licenses = require('./lib/options/licenses.js');
   var flickrOpts = require('./lib/options/flickr.js');
   var owm = require('./lib/options/openWeatherMap.js');
   var flickrHelpers = require('./lib/helpers/flickr.js');
+  var owmHelpers = require('./lib/helpers/openWeatherMap.js');
 
 
   var wData = {};
@@ -53,17 +54,17 @@ $(function() {
 
   var createLocationHTML = function (data) {
     var $locHTML = $('<h2></h2>',
-        {'class': 'text-center'}).text(' ' + getTown(data) + ', ');
-    $locHTML.append($('<small></small>').text(getCountryCode(data)));
+        {'class': 'text-center'}).text(' ' + owmHelpers.getTown(data) + ', ');
+    $locHTML.append($('<small></small>').text(owmHelpers.getCountryCode(data)));
     $locHTML.prepend($('<i></i>',
-        {'class': getWeatherIconsClass(data)}));
+        {'class': owmHelpers.getWeatherIconsClass(data)}));
     return $locHTML;
   };
 
   var createWeatherInfoHTML = function (data) {
     var $holder = $('<section></section>', {'class': 'temp text-center'});
     var $temp = $('<span></span>',
-        {'class': 'temp-val', id: 'temp-val'}).text(getTemp(data).C);
+        {'class': 'temp-val', id: 'temp-val'}).text(owmHelpers.getTemp(data).C);
     var $deg = createC2FSwitchHTML(data);
     $holder.append($('<i></i>', {'class': 'wi wi-thermometer temp-icon'}));
     $holder.append($temp);
@@ -72,7 +73,7 @@ $(function() {
   };
 
   var createC2FSwitchHTML = function (data) {
-    var temps = getTemp(data);
+    var temps = owmHelpers.getTemp(data);
     var $btnGrp = $('<div></div>',
         {'class': 'btn-group', role: 'group'});
     var $cBtn = $('<button></button>',
@@ -91,48 +92,24 @@ $(function() {
   var createWeatherDescriptionHTML = function (data) {
     var $desc = $('<p></p>',
         {'class': 'text-center small weather-description'});
-    $desc.text(getWeatherDescription(data));
+    $desc.text(owmHelpers.getWeatherDescription(data));
     return $desc;
   };
 
-  var getWeatherIconsClass = function (data) {
-    var prefix = 'wi wi-owm-';
-    var dayStr = determineDayOrNight(data);
-    if (dayStr.length > 0) {
-      prefix = prefix + dayStr + '-';
-    }
-    return prefix + getWeatherId(data);
-  };
-
-
-  var determineDayOrNight = function (data) {
-    var dayStr = '';
-    var icon = getWeatherIcon(data);
-    if (typeof icon !== 'string' || icon.length === 0) {
-      return dayStr;
-    }
-    var lastIconChar = icon[icon.length -1];
-    if (lastIconChar === 'd') {
-      dayStr = 'day';
-    } else if (lastIconChar === 'n') {
-      dayStr = 'night';
-    }
-    return dayStr;
-  };
 
 
   var searchFlickrPhotos = function (wdata) {
     if (flickrOpts.hasAPIKey()) {
       flickrOpts.setTextSearchStr(
         flickrHelpers.createFlickrTextSearchStr(
-          getWeatherString(wdata),
-          determineDayOrNight(wdata),
+          owmHelpers.getWeatherString(wdata),
+          owmHelpers.determineDayOrNight(wdata),
           firstSearch
       ));
       flickrOpts.setBBox(
         flickrHelpers.createFlickrBboxStr(
-          getWeatherCoords(wdata).lon,
-          getWeatherCoords(wdata).lat,
+          owmHelpers.getWeatherCoords(wdata).lon,
+          owmHelpers.getWeatherCoords(wdata).lat,
           flickrOpts.getCoordTolerances()
         ));
       console.log(flickrOpts.getQueryData());
@@ -161,8 +138,8 @@ $(function() {
           firstSearch = false;
           flickrOpts.setTextSearchStr(
             flickrHelpers.createFlickrTextSearchStr(
-              getWeatherString(wdata),
-              determineDayOrNight(wdata),
+              owmHelpers.getWeatherString(wdata),
+              owmHelpers.determineDayOrNight(wdata),
               firstSearch
           ));
           makeFlickrAPICall(wdata);
@@ -193,45 +170,6 @@ $(function() {
     setCredits(data);
   };
 
-  var getTown = function (data) {
-    return data.name;
-  };
-
-  var getCountryCode = function (data) {
-    return data.sys.country;
-  };
-
-  var getTemp = function(data) {
-    var tempK = data.main.temp;
-    var tempC = Math.round(tempK + absZeroC);
-    tempK = Math.round(tempK);
-    var tempF = Math.round(celsius2fahrenheit(tempC));
-    return {K: tempK, C: tempC, F: tempF};
-  };
-
-  var celsius2fahrenheit = function (tempC) {
-    return tempC * 1.8 + 32;
-  };
-
-  var getWeatherIcon = function (data) {
-    return data.weather[0].icon;
-  };
-
-  var getWeatherDescription = function (data) {
-    return data.weather[0].description;
-  };
-
-  var getWeatherString = function (data) {
-    return data.weather[0].main.toLowerCase();
-  };
-
-  var getWeatherId = function (data) {
-    return data.weather[0].id;
-  };
-
-  var getWeatherCoords = function (data) {
-    return {lon: data.coord.lon, lat: data.coord.lat};
-  };
 
   var parseQueryStr = function () {
     var qObj = {};
