@@ -11,6 +11,7 @@ $(function() {
   var owmHelpers = require('./lib/helpers/openWeatherMap.js');
   var creditsRenderer = require('./lib/renderers/credits.js');
   var bgPhoto = require('./lib/renderers/bgPhoto.js');
+  var weatherReport = require('./lib/renderers/weatherReport.js');
 
 
   var wData = {};
@@ -29,7 +30,7 @@ $(function() {
       success: function (data, status, jqxhr) {
         wData = data;
         console.log(data);
-        addWeatherHTML(wData);
+        weatherReport.addWeatherHTML(wData);
         searchFlickrPhotos(wData);
       },
       error: function (jqxhr, status, error) {
@@ -42,59 +43,6 @@ $(function() {
         console.log(status);
       }
     });
-  };
-
-  var addWeatherHTML = function (data) {
-    var $locationHTML = createLocationHTML(data);
-    var $weatherInfoHTML = createWeatherInfoHTML(data);
-    var $weatherDescription = createWeatherDescriptionHTML(data);
-    $article.html($locationHTML);
-    $article.append($weatherDescription);
-    $article.append($weatherInfoHTML);
-  };
-
-  var createLocationHTML = function (data) {
-    var $locHTML = $('<h2></h2>',
-        {'class': 'text-center'}).text(' ' + owmHelpers.getTown(data) + ', ');
-    $locHTML.append($('<small></small>').text(owmHelpers.getCountryCode(data)));
-    $locHTML.prepend($('<i></i>',
-        {'class': owmHelpers.getWeatherIconsClass(data)}));
-    return $locHTML;
-  };
-
-  var createWeatherInfoHTML = function (data) {
-    var $holder = $('<section></section>', {'class': 'temp text-center'});
-    var $temp = $('<span></span>',
-        {'class': 'temp-val', id: 'temp-val'}).text(owmHelpers.getTemp(data).C);
-    var $deg = createC2FSwitchHTML(data);
-    $holder.append($('<i></i>', {'class': 'wi wi-thermometer temp-icon'}));
-    $holder.append($temp);
-    $holder.append($deg);
-    return $holder;
-  };
-
-  var createC2FSwitchHTML = function (data) {
-    var temps = owmHelpers.getTemp(data);
-    var $btnGrp = $('<div></div>',
-        {'class': 'btn-group', role: 'group'});
-    var $cBtn = $('<button></button>',
-        {'class': 'btn btn-primary', type: 'button', id: 'c-btn'})
-        .text('C');
-    var $fBtn = $('<button></button>',
-        {'class': 'btn btn-default', type: 'button', id: 'f-btn'})
-        .text('F');
-    $cBtn.data({'temp-val': temps.C, 'other-btn': '#f-btn'});
-    $fBtn.data({'temp-val': temps.F, 'other-btn': '#c-btn'});
-    $btnGrp.append($cBtn);
-    $btnGrp.append($fBtn);
-    return $btnGrp;
-  };
-
-  var createWeatherDescriptionHTML = function (data) {
-    var $desc = $('<p></p>',
-        {'class': 'text-center small weather-description'});
-    $desc.text(owmHelpers.getWeatherDescription(data));
-    return $desc;
   };
 
 
