@@ -10,6 +10,7 @@ $(function() {
   var flickrHelpers = require('./lib/helpers/flickr.js');
   var owmHelpers = require('./lib/helpers/openWeatherMap.js');
   var creditsRenderer = require('./lib/renderers/credits.js');
+  var bgPhoto = require('./lib/renderers/bgPhoto.js');
 
 
   var wData = {};
@@ -132,7 +133,7 @@ $(function() {
           console.log(fData);
           var photoData = flickrHelpers.selectPhoto(fData);
           console.log(photoData);
-          showPhoto(photoData);
+          bgPhoto.showPhoto(photoData);
           creditsRenderer.setCredits(photoData);
           activateCredits();
         } else  if (firstSearch) {
@@ -151,24 +152,6 @@ $(function() {
         console.log(error);
       }
     });
-  };
-
-
-  var showPhoto = function (data) {
-    var $body = $('body');
-    var $bgCurtain = $('.cover');
-    var $bgImage = $('.bg-image');
-    $bgImage.css({
-      'background-image': 'url(' + data.url_t + ')'
-    });
-    $bgCurtain.addClass('transparent');
-    var img = new Image();
-    img.addEventListener('load', function() {
-      $('head').append('<style>body {background-image: url(' + data.url + ');}</style>');
-      $bgImage.addClass('transparent');
-      $('head').append('<style>.weather-report:before, footer::before {background-image: url(' + data.url + '); opacity: 1;}</style>');
-    }, false);
-    img.src = data.url;
   };
 
 
