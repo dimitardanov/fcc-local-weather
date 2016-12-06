@@ -12,9 +12,10 @@ $(function() {
   var errorMsg = require('./lib/renderers/errorMessages.js');
   var helpers = require('./lib/helpers/helpers.js');
   var events = require('./lib/helpers/events.js');
+  var weatherAjax = require('./lib/ajax/openWeatherMap.js');
+  var flickrAjax = require('./lib/ajax/flickr.js');
 
 
-  var firstSearch = true;
 
 
   var queryObj = helpers.parseQueryStr();
@@ -44,7 +45,7 @@ $(function() {
       success: function (data, status, jqxhr) {
         console.log(data);
         weatherReport.addWeatherHTML(data);
-        searchFlickrPhotos(data);
+        flickrAjax.searchFlickrPhotos(data, flickrOpts);
       },
       error: function (jqxhr, status, error) {
         errorMsg.showWeatherUnavailable();
@@ -58,60 +59,7 @@ $(function() {
     });
   };
 
-  var searchFlickrPhotos = function (wdata) {
-    if (flickrOpts.hasAPIKey()) {
-      flickrOpts.setTextSearchStr(
-        flickrHelpers.createFlickrTextSearchStr(
-          owmHelpers.getWeatherString(wdata),
-          owmHelpers.determineDayOrNight(wdata),
-          firstSearch
-      ));
-      flickrOpts.setBBox(
-        flickrHelpers.createFlickrBboxStr(
-          owmHelpers.getWeatherCoords(wdata).lon,
-          owmHelpers.getWeatherCoords(wdata).lat,
-          flickrOpts.getCoordTolerances()
-        ));
-      console.log(flickrOpts.getQueryData());
-      makeFlickrAPICall(wdata);
-    }
-  };
 
-  var makeFlickrAPICall = function (wdata) {
-    $.ajax({
-      url: flickrOpts.getURL(),
-      data: flickrOpts.getQueryData(),
-      method: 'GET',
-      crossDomain: true,
-      jsonp: false,
-      dataType: 'json',
-      success: function (data, status, jqxhr) {
-        if (data.photos.total >= 1) {
-          var fData = data.photos.photo;
-          console.log('fdata');
-          console.log(fData);
-          var photoData = flickrHelpers.selectPhoto(fData);
-          console.log(photoData);
-          bgPhoto.showPhoto(photoData);
-          creditsRenderer.setCredits(photoData);
-          events.activateCredits();
-        } else  if (firstSearch) {
-          delete flickrOpts.getQueryData().bbox;
-          firstSearch = false;
-          flickrOpts.setTextSearchStr(
-            flickrHelpers.createFlickrTextSearchStr(
-              owmHelpers.getWeatherString(wdata),
-              owmHelpers.determineDayOrNight(wdata),
-              firstSearch
-          ));
-          makeFlickrAPICall(wdata);
-        }
-      },
-      error: function (jqxhr, status, error) {
-        console.log(error);
-      }
-    });
-  };
 
   $('#weather-today').on('click', '#c-btn, #f-btn', events.c2fButtonToggle);
 
