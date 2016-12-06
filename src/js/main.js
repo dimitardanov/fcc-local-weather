@@ -10,6 +10,7 @@ $(function() {
   var bgPhoto = require('./lib/renderers/bgPhoto.js');
   var weatherReport = require('./lib/renderers/weatherReport.js');
   var errorMsg = require('./lib/renderers/errorMessages.js');
+  var helpers = require('./lib/helpers/helpers.js');
 
 
   var wData = {};
@@ -101,19 +102,8 @@ $(function() {
   };
 
 
-  var parseQueryStr = function () {
-    var qObj = {};
-    var location = window.location.search.slice(1).split('&');
-    location.forEach(function (item) {
-      kv = item.split('=');
-      qObj[kv[0]] = kv[1];
-    });
-    return qObj;
-  };
 
-
-
-  queryStr = parseQueryStr();
+  var queryStr = helpers.parseQueryStr();
   owm.setAPIKey(queryStr.owm);
   flickrOpts.setAPIKey(queryStr.api_key);
 
