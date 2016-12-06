@@ -13,9 +13,23 @@ $(function() {
   var helpers = require('./lib/helpers/helpers.js');
 
 
-  var wData = {};
   var firstSearch = true;
-  var fData = [];
+
+
+  var queryObj = helpers.parseQueryStr();
+  owm.setAPIKey(queryObj.owm);
+  flickrOpts.setAPIKey(queryObj.api_key);
+
+  if ((owm.hasAPIKey()) && ('geolocation' in navigator)) {
+    navigator.geolocation.getCurrentPosition(
+      function (pos) {
+        owm.setCoords(pos.coords.longitude, pos.coords.latitude);
+        getWeather();
+      },
+      errorMsg.showLocationUnavailable);
+  } else {
+    errorMsg.showLocationUnavailable();
+  }
 
 
   var getWeather = function () {
@@ -27,10 +41,9 @@ $(function() {
       jsonp: false,
       dataType: 'json',
       success: function (data, status, jqxhr) {
-        wData = data;
         console.log(data);
-        weatherReport.addWeatherHTML(wData);
-        searchFlickrPhotos(wData);
+        weatherReport.addWeatherHTML(data);
+        searchFlickrPhotos(data);
       },
       error: function (jqxhr, status, error) {
         errorMsg.showWeatherUnavailable();
@@ -75,7 +88,7 @@ $(function() {
       dataType: 'json',
       success: function (data, status, jqxhr) {
         if (data.photos.total >= 1) {
-          fData = data.photos.photo;
+          var fData = data.photos.photo;
           console.log('fdata');
           console.log(fData);
           var photoData = flickrHelpers.selectPhoto(fData);
@@ -103,9 +116,6 @@ $(function() {
 
 
 
-  var queryStr = helpers.parseQueryStr();
-  owm.setAPIKey(queryStr.owm);
-  flickrOpts.setAPIKey(queryStr.api_key);
 
   $('#weather-today').on('click', '#c-btn, #f-btn', function(e) {
     var $this = $(e.target);
@@ -124,16 +134,7 @@ $(function() {
   };
 
 
-  if ((owm.hasAPIKey()) && ('geolocation' in navigator)) {
-    navigator.geolocation.getCurrentPosition(
-      function (pos) {
-        owm.setCoords(pos.coords.longitude, pos.coords.latitude);
-        getWeather();
-      },
-      errorMsg.showLocationUnavailable);
-  } else {
-    errorMsg.showLocationUnavailable();
-  }
+
 
 
 });
