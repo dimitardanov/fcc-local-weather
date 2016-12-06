@@ -5,11 +5,11 @@ $(function() {
   var $article = $('#weather-today');
 
 
-  var licenses = require('./lib/options/licenses.js');
   var flickrOpts = require('./lib/options/flickr.js');
   var owm = require('./lib/options/openWeatherMap.js');
   var flickrHelpers = require('./lib/helpers/flickr.js');
   var owmHelpers = require('./lib/helpers/openWeatherMap.js');
+  var creditsRenderer = require('./lib/renderers/credits.js');
 
 
   var wData = {};
@@ -133,6 +133,8 @@ $(function() {
           var photoData = flickrHelpers.selectPhoto(fData);
           console.log(photoData);
           showPhoto(photoData);
+          creditsRenderer.setCredits(photoData);
+          activateCredits();
         } else  if (firstSearch) {
           delete flickrOpts.getQueryData().bbox;
           firstSearch = false;
@@ -167,7 +169,6 @@ $(function() {
       $('head').append('<style>.weather-report:before, footer::before {background-image: url(' + data.url + '); opacity: 1;}</style>');
     }, false);
     img.src = data.url;
-    setCredits(data);
   };
 
 
@@ -182,37 +183,6 @@ $(function() {
   };
 
 
-  var setElementCredits = function (selector, text, url) {
-    var $element = $(selector);
-    $element.text(text);
-    $element.attr('href', url);
-  };
-
-  var setAuthorCredits = function (data) {
-    var owner_name = data.ownername;
-    var owner_url = 'https://www.flickr.com/people/' + data.owner;
-    setElementCredits('.photo-author', owner_name, owner_url);
-  };
-
-  var setPhotoCredits = function (data) {
-    var photo_title = data.title;
-    var photo_url = 'https://www.flickr.com/photos/' + data.owner + '/' + data.id;
-    setElementCredits('.photo-title', photo_title, photo_url);
-  };
-
-  var setLicenseCredits = function (data) {
-    var id = parseInt(data.license, 10);
-    var licenseText = licenses[id].abbr;
-    var licenseUrl = licenses[id].url;
-    setElementCredits('.photo-license', licenseText, licenseUrl);
-  };
-
-  var setCredits = function (data) {
-    setAuthorCredits(data);
-    setPhotoCredits(data);
-    setLicenseCredits(data);
-    activateCredits();
-  };
 
   queryStr = parseQueryStr();
   owm.setAPIKey(queryStr.owm);
