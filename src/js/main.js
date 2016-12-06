@@ -26,39 +26,12 @@ $(function() {
     navigator.geolocation.getCurrentPosition(
       function (pos) {
         owm.setCoords(pos.coords.longitude, pos.coords.latitude);
-        getWeather();
+        weatherAjax.getWeather(owm, flickrOpts);
       },
       errorMsg.showLocationUnavailable);
   } else {
     errorMsg.showLocationUnavailable();
   }
-
-
-  var getWeather = function () {
-    $.ajax({
-      url: owm.getURL(),
-      data: owm.getQueryData(),
-      method: 'GET',
-      crossDomain: true,
-      jsonp: false,
-      dataType: 'json',
-      success: function (data, status, jqxhr) {
-        console.log(data);
-        weatherReport.addWeatherHTML(data);
-        flickrAjax.searchFlickrPhotos(data, flickrOpts);
-      },
-      error: function (jqxhr, status, error) {
-        errorMsg.showWeatherUnavailable();
-        console.log(jqxhr);
-        console.log(status);
-        console.log(error);
-      },
-      complete: function (jqxhr, status) {
-        console.log(status);
-      }
-    });
-  };
-
 
 
   $('#weather-today').on('click', '#c-btn, #f-btn', events.c2fButtonToggle);
