@@ -52,7 +52,9 @@ var searchOpts = {
   getExcludeTerms: function () { return this.termsExclude; },
   getIncludeTerms: function () { return this.termsInclude; },
   getAdditionalTerms: function () { return this.termsAdditional; },
-  getCoordTolerances: function () { return { lon: this.lonTol, lat: this.latTol }; }
+  getCoordTolerances: function () { return { lon: this.lonTol, lat: this.latTol }; },
+  setBBox: function (bbox) { this.queryData.bbox = bbox; },
+  setTextSearchStr: function (text) { this.queryData.text = text; }
 };
 
 searchOpts.setQueryData();
