@@ -11,6 +11,7 @@ $(function() {
   var weatherReport = require('./lib/renderers/weatherReport.js');
   var errorMsg = require('./lib/renderers/errorMessages.js');
   var helpers = require('./lib/helpers/helpers.js');
+  var events = require('./lib/helpers/events.js');
 
 
   var firstSearch = true;
@@ -57,8 +58,6 @@ $(function() {
     });
   };
 
-
-
   var searchFlickrPhotos = function (wdata) {
     if (flickrOpts.hasAPIKey()) {
       flickrOpts.setTextSearchStr(
@@ -95,7 +94,7 @@ $(function() {
           console.log(photoData);
           bgPhoto.showPhoto(photoData);
           creditsRenderer.setCredits(photoData);
-          activateCredits();
+          events.activateCredits();
         } else  if (firstSearch) {
           delete flickrOpts.getQueryData().bbox;
           firstSearch = false;
@@ -114,27 +113,6 @@ $(function() {
     });
   };
 
-
-
-
-  $('#weather-today').on('click', '#c-btn, #f-btn', function(e) {
-    var $this = $(e.target);
-    var $other = $($this.data('other-btn'));
-    $('#temp-val').text($this.data('temp-val'));
-    $this.removeClass('btn-default')
-         .addClass('btn-primary');
-    $other.addClass('btn-default')
-          .removeClass('btn-primary');
-  });
-
-  var activateCredits = function () {
-    $('#credits-toggle').on('click', function () {
-      $('.credits').toggleClass('open');
-    });
-  };
-
-
-
-
+  $('#weather-today').on('click', '#c-btn, #f-btn', events.c2fButtonToggle);
 
 });
