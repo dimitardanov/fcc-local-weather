@@ -32,31 +32,27 @@ var options = {
 function FAD () {
   AjaxData.call(this, url, queryData);
   this.opts = options;
-  this._setQueryData();
+  this._setLicenses();
+  this._setQueryExtraTerms();
 }
 
 FAD.prototype = Object.create(AjaxData.prototype);
 FAD.prototype.constructor = FAD;
 
 
-FAD.prototype.setLicenses = function () {
-  this.queryData.extras = this.opts.termsExtra.concat(this.getImageSizeURLSuffixes()).join(',');
+FAD.prototype._setLicenses = function () {
+  this.queryData.license = this.opts.imageLicenses.join(',');
 };
 
-FAD.prototype.getImageSizeURLSuffixes = function () {
+FAD.prototype._setQueryExtraTerms = function () {
+  this.queryData.extras = this.opts.termsExtra.concat(this._getImageSizeURLSuffixes()).join(',');
+};
+
+FAD.prototype._getImageSizeURLSuffixes = function () {
   var self = this;
   return this.opts.imageSizeMarkers.map(function (m) {
     return self.opts.imgSuffix + m;
   });
-};
-
-FAD.prototype._setQueryData = function () {
-  this.setLicenses();
-  this.setQueryExtraTerms();
-};
-
-FAD.prototype.setQueryExtraTerms = function () {
-    this.queryData.extras = this.opts.termsExtra.concat(this.getImageSizeURLSuffixes()).join(',');
 };
 
 FAD.prototype.setAPIKey = function (key) {
@@ -65,10 +61,6 @@ FAD.prototype.setAPIKey = function (key) {
 
 FAD.prototype.hasAPIKey = function () {
   return Boolean(this.queryData.api_key);
-};
-
-FAD.prototype.getImageSizeMarkers = function () {
-  return this.opts.imageSizeMarkers;
 };
 
 FAD.prototype.getExcludeTerms = function () {
@@ -81,18 +73,6 @@ FAD.prototype.getIncludeTerms = function () {
 
 FAD.prototype.getAdditionalTerms = function () {
   return this.opts.termsAdditional;
-};
-
-FAD.prototype.getCoordTolerances = function () {
-  return { lon: this.opts.lonTol, lat: this.opts.latTol };
-};
-
-FAD.prototype.setBBox = function (coords) {
-  this.queryData.bbox = _createBboxStr(coords, this.getCoordTolerances());
-};
-
-FAD.prototype.removeBBox = function () {
-  delete this.queryData.bbox;
 };
 
 FAD.prototype.setTextSearchStr = function (weatherStr, dayStr, firstSearch) {
@@ -110,6 +90,17 @@ FAD.prototype._createTextSearchStr = function (weatherStr, dayStr, firstSearch) 
   return searchStr;
 };
 
+FAD.prototype.getCoordTolerances = function () {
+  return { lon: this.opts.lonTol, lat: this.opts.latTol };
+};
+
+FAD.prototype.setBBox = function (coords) {
+  this.queryData.bbox = _createBboxStr(coords, this.getCoordTolerances());
+};
+
+FAD.prototype.removeBBox = function () {
+  delete this.queryData.bbox;
+};
 
 
 function _createBboxStr (coords, coordTols) {
