@@ -1,5 +1,6 @@
 
 var AjaxData = require('./ajaxData.js');
+var helpers = require('../helpers/helpers.js');
 
 var url = 'https://api.flickr.com/services/rest/?';
 var queryData = {
@@ -75,12 +76,13 @@ FAD.prototype._getAdditionalTerms = function () {
   return this.opts.termsAdditional.join(' ');
 };
 
-FAD.prototype.setTextSearchStr = function (weatherStr, dayStr, firstSearch) {
-  this.queryData.text = this._createTextSearchStr(weatherStr, dayStr, firstSearch);
+FAD.prototype.setTextSearchStr = function (weatherStr, firstSearch) {
+  this.queryData.text = this._createTextSearchStr(weatherStr, firstSearch);
 };
 
-FAD.prototype._createTextSearchStr = function (weatherStr, dayStr, firstSearch) {
-  var searchStr = weatherStr + ' ' + dayStr;
+FAD.prototype._createTextSearchStr = function (weatherStr, firstSearch) {
+  var daytimeStr = helpers.determineDaytimeStr();
+  var searchStr = weatherStr + ' ' + daytimeStr;
   if (firstSearch) {
     searchStr = searchStr + ' ' + this._getIncludeTerms();
   } else {

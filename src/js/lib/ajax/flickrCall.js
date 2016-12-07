@@ -13,7 +13,6 @@ function searchFlickrPhotos (wdata, flickrAjaxData) {
   if (flickrAjaxData.hasAPIKey()) {
     flickrAjaxData.setTextSearchStr(
       owmHelpers.getWeatherString(wdata),
-      owmHelpers.determineDayOrNight(wdata),
       firstSearch
     );
     flickrAjaxData.setBBox(owmHelpers.getWeatherCoords(wdata));
@@ -45,7 +44,6 @@ function makeFlickrAPICall (wdata, flickrAjaxData) {
         firstSearch = false;
         flickrAjaxData.setTextSearchStr(
           owmHelpers.getWeatherString(wdata),
-          owmHelpers.determineDayOrNight(wdata),
           firstSearch
         );
         makeFlickrAPICall(wdata, flickrAjaxData);

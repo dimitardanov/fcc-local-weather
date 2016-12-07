@@ -1,20 +1,9 @@
 
+var helpers = require('./helpers.js');
+
 var absZeroC = -273.15;
 
-function determineDayOrNight (data) {
-  var dayStr = '';
-  var icon = _getWeatherIcon(data);
-  if (typeof icon !== 'string' || icon.length === 0) {
-    return dayStr;
-  }
-  var lastIconChar = icon[icon.length -1];
-  if (lastIconChar === 'd') {
-    dayStr = 'day';
-  } else if (lastIconChar === 'n') {
-    dayStr = 'night';
-  }
-  return dayStr;
-}
+
 
 function _getWeatherIcon (data) {
   return data.weather[0].icon;
@@ -26,7 +15,7 @@ function _getWeatherId (data) {
 
 function getWeatherIconsClass (data) {
   var prefix = 'wi wi-owm-';
-  var dayStr = determineDayOrNight(data);
+  var dayStr = helpers.determineDaytimeStr();
   if (dayStr.length > 0) {
     prefix = prefix + dayStr + '-';
   }
@@ -67,7 +56,6 @@ function getWeatherString (data) {
 
 
 module.exports = {
-  determineDayOrNight: determineDayOrNight,
   getWeatherIconsClass: getWeatherIconsClass,
   getTown: getTown,
   getCountryCode: getCountryCode,

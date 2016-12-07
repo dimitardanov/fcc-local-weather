@@ -10,6 +10,17 @@ function parseQueryStr () {
   return qObj;
 }
 
+function determineDaytimeStr () {
+  var date = new Date();
+  var hour = date.getHours();
+  if (hour > 6 && hour < 18) {
+    return 'day';
+  } else {
+    return 'night';
+  }
+}
+
 module.exports = {
-  parseQueryStr: parseQueryStr
+  parseQueryStr: parseQueryStr,
+  determineDaytimeStr: determineDaytimeStr
 };
