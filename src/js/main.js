@@ -3,25 +3,25 @@
 $(function() {
 
   var flickrOpts = require('./lib/options/flickr.js');
-  var WeatherData = require('./lib/options/owmAjaxData.js');
+  var WeatherAjaxData = require('./lib/options/owmAjaxData.js');
   var errorMsg = require('./lib/renderers/errorMessages.js');
   var helpers = require('./lib/helpers/helpers.js');
   var events = require('./lib/helpers/events.js');
-  var weatherAjax = require('./lib/ajax/openWeatherMap.js');
+  var getWeather = require('./lib/ajax/owmCall.js');
   var flickrAjax = require('./lib/ajax/flickr.js');
 
   var queryObj = helpers.parseQueryStr();
 
-  var weatherData = new WeatherData();
-  weatherData.setAPIKey(queryObj.owm);
+  var weatherAjaxData = new WeatherAjaxData();
+  weatherAjaxData.setAPIKey(queryObj.owm);
 
   flickrOpts.setAPIKey(queryObj.api_key);
 
-  if ((weatherData.hasAPIKey()) && ('geolocation' in navigator)) {
+  if ((weatherAjaxData.hasAPIKey()) && ('geolocation' in navigator)) {
     navigator.geolocation.getCurrentPosition(
       function (pos) {
-        weatherData.setPosCoords(pos);
-        weatherAjax.getWeather(weatherData, flickrOpts);
+        weatherAjaxData.setPosCoords(pos);
+        getWeather(weatherAjaxData, flickrOpts);
       },
       errorMsg.showLocationUnavailable);
   } else {

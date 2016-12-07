@@ -29,6 +29,4 @@ function getWeather (owm, flickrOpts) {
 }
 
 
-module.exports = {
-  getWeather: getWeather
-};
+module.exports = getWeather;
