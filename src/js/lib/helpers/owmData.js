@@ -4,63 +4,61 @@ var helpers = require('./helpers.js');
 var absZeroC = -273.15;
 
 
-
-function _getWeatherIcon (data) {
-  return data.weather[0].icon;
+function WeatherData (weatherObj) {
+  this.data = weatherObj;
 }
 
-function _getWeatherId (data) {
-  return data.weather[0].id;
-}
+WeatherData.prototype.constructor = WeatherData;
 
-function getWeatherIconsClass (data) {
+
+WeatherData.prototype._getWeatherIcon = function () {
+  return this.data.weather[0].icon;
+};
+
+WeatherData.prototype._getWeatherId = function () {
+  return this.data.weather[0].id;
+};
+
+WeatherData.prototype.getWeatherIconsClass = function () {
   var prefix = 'wi wi-owm-';
   var dayStr = helpers.determineDaytimeStr();
   if (dayStr.length > 0) {
     prefix = prefix + dayStr + '-';
   }
-  return prefix + _getWeatherId(data);
-}
+  return prefix + this._getWeatherId();
+};
 
-function getTown (data) {
-  return data.name;
-}
+WeatherData.prototype.getTown = function () {
+  return this.data.name;
+};
 
-function getCountryCode (data) {
-  return data.sys.country;
-}
+WeatherData.prototype.getCountryCode = function () {
+  return this.data.sys.country;
+};
 
-function getTemp (data) {
-  var tempK = data.main.temp;
+WeatherData.prototype.getTemp = function () {
+  var tempK = this.data.main.temp;
   var tempC = Math.round(tempK + absZeroC);
   tempK = Math.round(tempK);
   var tempF = Math.round(_celsius2fahrenheit(tempC));
   return {K: tempK, C: tempC, F: tempF};
-}
+};
+
+WeatherData.prototype.getWeatherCoords = function () {
+  return {lon: this.data.coord.lon, lat: this.data.coord.lat};
+};
+
+WeatherData.prototype.getWeatherDescription = function () {
+  return this.data.weather[0].description;
+};
+
+WeatherData.prototype.getWeatherString = function () {
+  return this.data.weather[0].main.toLowerCase();
+};
+
 
 function _celsius2fahrenheit (tempC) {
   return tempC * 1.8 + 32;
 }
 
-function getWeatherCoords (data) {
-  return {lon: data.coord.lon, lat: data.coord.lat};
-}
-
-function getWeatherDescription (data) {
-  return data.weather[0].description;
-}
-
-function getWeatherString (data) {
-  return data.weather[0].main.toLowerCase();
-}
-
-
-module.exports = {
-  getWeatherIconsClass: getWeatherIconsClass,
-  getTown: getTown,
-  getCountryCode: getCountryCode,
-  getTemp: getTemp,
-  getWeatherCoords: getWeatherCoords,
-  getWeatherDescription: getWeatherDescription,
-  getWeatherString: getWeatherString
-};
+module.exports = WeatherData;

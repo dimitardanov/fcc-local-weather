@@ -2,6 +2,7 @@
 var weatherReport = require('../renderers/weatherReport.js');
 var errorMsg = require('../renderers/errorMessages.js');
 var setBgImage = require('./flickrCall.js');
+var WeatherData = require('../helpers/owmData.js');
 
 
 function getWeather (owm, flickrAjaxData) {
@@ -14,8 +15,9 @@ function getWeather (owm, flickrAjaxData) {
     dataType: 'json',
     success: function (data, status, jqxhr) {
       console.log(data);
-      weatherReport.addWeatherHTML(data);
-      setBgImage(data, flickrAjaxData);
+      var weather = new WeatherData(data);
+      weatherReport.addWeatherHTML(weather);
+      setBgImage(weather, flickrAjaxData);
     },
     error: function (jqxhr, status, error) {
       errorMsg.showWeatherUnavailable();

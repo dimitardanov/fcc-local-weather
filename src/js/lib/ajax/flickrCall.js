@@ -1,5 +1,4 @@
 
-var owmHelpers = require('../helpers/owmData.js');
 var selectPhoto = require('../helpers/imageSelect.js');
 var bgPhoto = require('../renderers/bgPhoto.js');
 var creditsRenderer = require('../renderers/credits.js');
@@ -7,21 +6,18 @@ var events = require('../helpers/events.js');
 
 var firstSearch = true;
 
-function searchFlickrPhotos (wdata, flickrAjaxData) {
+function searchFlickrPhotos (weather, flickrAjaxData) {
   console.log('searchFlickrPhotos');
   console.log(flickrAjaxData);
   if (flickrAjaxData.hasAPIKey()) {
-    flickrAjaxData.setTextSearchStr(
-      owmHelpers.getWeatherString(wdata),
-      firstSearch
-    );
-    flickrAjaxData.setBBox(owmHelpers.getWeatherCoords(wdata));
+    flickrAjaxData.setTextSearchStr(weather.getWeatherString(), firstSearch);
+    flickrAjaxData.setBBox(weather.getWeatherCoords());
     console.log(flickrAjaxData.getQueryData());
-    makeFlickrAPICall(wdata, flickrAjaxData);
+    makeFlickrAPICall(weather, flickrAjaxData);
   }
 }
 
-function makeFlickrAPICall (wdata, flickrAjaxData) {
+function makeFlickrAPICall (weather, flickrAjaxData) {
   $.ajax({
     url: flickrAjaxData.getURL(),
     data: flickrAjaxData.getQueryData(),
@@ -43,10 +39,10 @@ function makeFlickrAPICall (wdata, flickrAjaxData) {
         flickrAjaxData.removeBBox();
         firstSearch = false;
         flickrAjaxData.setTextSearchStr(
-          owmHelpers.getWeatherString(wdata),
+          weather.getWeatherString(),
           firstSearch
         );
-        makeFlickrAPICall(wdata, flickrAjaxData);
+        makeFlickrAPICall(weather, flickrAjaxData);
       }
     },
     error: function (jqxhr, status, error) {

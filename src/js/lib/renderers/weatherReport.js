@@ -1,30 +1,29 @@
 
-var owmHelpers = require('../helpers/owmData.js');
 var $article = $('#weather-today');
 
 
-function _createLocationHTML (data) {
+function _createLocationHTML (weather) {
   var $locHTML = $('<h2></h2>',
-      {'class': 'text-center'}).text(' ' + owmHelpers.getTown(data) + ', ');
-  $locHTML.append($('<small></small>').text(owmHelpers.getCountryCode(data)));
+      {'class': 'text-center'}).text(' ' + weather.getTown() + ', ');
+  $locHTML.append($('<small></small>').text(weather.getCountryCode()));
   $locHTML.prepend($('<i></i>',
-      {'class': owmHelpers.getWeatherIconsClass(data)}));
+      {'class': weather.getWeatherIconsClass()}));
   return $locHTML;
 }
 
-function _createWeatherInfoHTML (data) {
+function _createWeatherInfoHTML (weather) {
   var $holder = $('<section></section>', {'class': 'temp text-center'});
   var $temp = $('<span></span>',
-      {'class': 'temp-val', id: 'temp-val'}).text(owmHelpers.getTemp(data).C);
-  var $deg = _createC2FSwitchHTML(data);
+      {'class': 'temp-val', id: 'temp-val'}).text(weather.getTemp().C);
+  var $deg = _createC2FSwitchHTML(weather);
   $holder.append($('<i></i>', {'class': 'wi wi-thermometer temp-icon'}));
   $holder.append($temp);
   $holder.append($deg);
   return $holder;
 }
 
-function _createC2FSwitchHTML (data) {
-  var temps = owmHelpers.getTemp(data);
+function _createC2FSwitchHTML (weather) {
+  var temps = weather.getTemp();
   var $btnGrp = $('<div></div>',
       {'class': 'btn-group', role: 'group'});
   var $cBtn = $('<button></button>',
@@ -40,17 +39,17 @@ function _createC2FSwitchHTML (data) {
   return $btnGrp;
 }
 
-function createWeatherDescriptionHTML (data) {
+function _createWeatherDescriptionHTML (weather) {
   var $desc = $('<p></p>',
       {'class': 'text-center small weather-description'});
-  $desc.text(owmHelpers.getWeatherDescription(data));
+  $desc.text(weather.getWeatherDescription());
   return $desc;
 }
 
-function addWeatherHTML (data) {
-  var $locationHTML = _createLocationHTML(data);
-  var $weatherInfoHTML = _createWeatherInfoHTML(data);
-  var $weatherDescription = createWeatherDescriptionHTML(data);
+function addWeatherHTML (weather) {
+  var $locationHTML = _createLocationHTML(weather);
+  var $weatherInfoHTML = _createWeatherInfoHTML(weather);
+  var $weatherDescription = _createWeatherDescriptionHTML(weather);
   $article.html($locationHTML);
   $article.append($weatherDescription);
   $article.append($weatherInfoHTML);
