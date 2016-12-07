@@ -3,7 +3,7 @@
 $(function() {
 
   var flickrOpts = require('./lib/options/flickr.js');
-  var WeatherData = require('./lib/options/openWeatherMap.js');
+  var WeatherData = require('./lib/options/owmAjaxData.js');
   var errorMsg = require('./lib/renderers/errorMessages.js');
   var helpers = require('./lib/helpers/helpers.js');
   var events = require('./lib/helpers/events.js');
