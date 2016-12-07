@@ -1,5 +1,5 @@
 
-var owmHelpers = require('../helpers/openWeatherMap.js');
+var owmHelpers = require('../helpers/owmData.js');
 var selectPhoto = require('../helpers/imageSelect.js');
 var bgPhoto = require('../renderers/bgPhoto.js');
 var creditsRenderer = require('../renderers/credits.js');

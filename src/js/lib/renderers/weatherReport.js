@@ -1,5 +1,5 @@
 
-var owmHelpers = require('../helpers/openWeatherMap.js');
+var owmHelpers = require('../helpers/owmData.js');
 var $article = $('#weather-today');
 
 
