@@ -1,5 +1,5 @@
 
-var AjaxData = require('./data.js');
+var AjaxData = require('./ajaxData.js');
 
 var url = 'http://api.openweathermap.org/data/2.5/weather?';
 var queryData = {
