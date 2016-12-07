@@ -11,10 +11,6 @@ function WeatherData (weatherObj) {
 WeatherData.prototype.constructor = WeatherData;
 
 
-WeatherData.prototype._getWeatherIcon = function () {
-  return this.data.weather[0].icon;
-};
-
 WeatherData.prototype._getWeatherId = function () {
   return this.data.weather[0].id;
 };
