@@ -1,26 +1,20 @@
-var flickrOpts = require('../options/flickrAjaxData.js');
 
-
-function createFlickrBboxStr (lon, lat, coordTols) {
-  coordTols = coordTols || { lon: 1, lat: 2 };
-  var latMin = Math.max(lat - coordTols.lat, -90);
-  var latMax = Math.min(lat + coordTols.lat, 90);
-  var lonMin = Math.max(lon - coordTols.lon, -180);
-  var lonMax = Math.min(lon + coordTols.lon, 180);
-  var bbox = [lonMin, latMin, lonMax, latMax];
-  return bbox.join(',');
-}
-
-function createFlickrTextSearchStr (weatherStr, dayStr, firstSearch) {
-  var searchStr = weatherStr + ' ' + dayStr;
-  if (firstSearch) {
-    searchStr = searchStr + ' ' + flickrOpts.getIncludeTerms().join(' ');
-  } else {
-    searchStr = searchStr + ' ' + flickrOpts.getAdditionalTerms().join(' ');
+var flickrOpts = {
+  imageMinCoeff: 0.8,
+  imageMaxCoeff: 1.6,
+  maxNumPhotos: 1000,
+  imageSizeMarkers: ['t', 'm', 'n', 'z', 'c', 'l', 'b', 'h', 'k', 'o'],
+  getImageSizeMarkers: function () {
+    return this.imageSizeMarkers;
+  },
+  getImageSizeCoeff: function () {
+    return { max: this.imageMaxCoeff, min: this.imageMinCoeff };
+  },
+  getMaxNumPhotos: function () {
+    return this.maxNumPhotos;
   }
-  searchStr = searchStr + ' -' + flickrOpts.getExcludeTerms().join(' -');
-  return searchStr;
-}
+};
+
 
 function selectPhoto (fData) {
   if (fData.length === 1) {
@@ -79,8 +73,4 @@ function getImageHeight (item, marker) {
 }
 
 
-module.exports = {
-  createFlickrBboxStr: createFlickrBboxStr,
-  createFlickrTextSearchStr: createFlickrTextSearchStr,
-  selectPhoto: selectPhoto
-};
+module.exports = selectPhoto;
