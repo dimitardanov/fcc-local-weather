@@ -63,16 +63,16 @@ FAD.prototype.hasAPIKey = function () {
   return Boolean(this.queryData.api_key);
 };
 
-FAD.prototype.getExcludeTerms = function () {
-  return this.opts.termsExclude;
+FAD.prototype._getExcludeTerms = function () {
+  return '-' + this.opts.termsExclude.join(' -');
 };
 
-FAD.prototype.getIncludeTerms = function () {
-  return this.opts.termsInclude;
+FAD.prototype._getIncludeTerms = function () {
+  return this.opts.termsInclude.join(' ');
 };
 
-FAD.prototype.getAdditionalTerms = function () {
-  return this.opts.termsAdditional;
+FAD.prototype._getAdditionalTerms = function () {
+  return this.opts.termsAdditional.join(' ');
 };
 
 FAD.prototype.setTextSearchStr = function (weatherStr, dayStr, firstSearch) {
@@ -82,11 +82,11 @@ FAD.prototype.setTextSearchStr = function (weatherStr, dayStr, firstSearch) {
 FAD.prototype._createTextSearchStr = function (weatherStr, dayStr, firstSearch) {
   var searchStr = weatherStr + ' ' + dayStr;
   if (firstSearch) {
-    searchStr = searchStr + ' ' + this.getIncludeTerms().join(' ');
+    searchStr = searchStr + ' ' + this._getIncludeTerms();
   } else {
-    searchStr = searchStr + ' ' + this.getAdditionalTerms().join(' ');
+    searchStr = searchStr + ' ' + this._getAdditionalTerms();
   }
-  searchStr = searchStr + ' -' + this.getExcludeTerms().join(' -');
+  searchStr = searchStr + ' ' + this._getExcludeTerms();
   return searchStr;
 };
 
