@@ -17,9 +17,6 @@ function selectPhoto (fData) {
     return fData[0];
   }
 
-  fData = fData.sort(function (a, b) {
-    return parseInt(b.views, 10) - parseInt(a.views, 10);
-  });
   fData = createImageURLData(fData);
   fData = fData.filter(function (item) {
     return item.hasOwnProperty('url_t') && item.hasOwnProperty('url');
