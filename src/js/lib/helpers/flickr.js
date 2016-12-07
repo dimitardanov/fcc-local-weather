@@ -1,4 +1,4 @@
-var flickrOpts = require('../options/flickr.js');
+var flickrOpts = require('../options/flickrAjaxData.js');
 
 
 function createFlickrBboxStr (lon, lat, coordTols) {
