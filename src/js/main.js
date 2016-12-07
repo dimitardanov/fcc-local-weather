@@ -3,7 +3,7 @@
 $(function() {
 
   var flickrOpts = require('./lib/options/flickr.js');
-  var owm = require('./lib/options/openWeatherMap.js');
+  var WeatherData = require('./lib/options/openWeatherMap.js');
   var errorMsg = require('./lib/renderers/errorMessages.js');
   var helpers = require('./lib/helpers/helpers.js');
   var events = require('./lib/helpers/events.js');
@@ -12,14 +12,16 @@ $(function() {
 
   var queryObj = helpers.parseQueryStr();
 
-  owm.setAPIKey(queryObj.owm);
+  var weatherData = new WeatherData();
+  weatherData.setAPIKey(queryObj.owm);
+
   flickrOpts.setAPIKey(queryObj.api_key);
 
-  if ((owm.hasAPIKey()) && ('geolocation' in navigator)) {
+  if ((weatherData.hasAPIKey()) && ('geolocation' in navigator)) {
     navigator.geolocation.getCurrentPosition(
       function (pos) {
-        owm.setCoords(pos.coords.longitude, pos.coords.latitude);
-        weatherAjax.getWeather(owm, flickrOpts);
+        weatherData.setPosCoords(pos);
+        weatherAjax.getWeather(weatherData, flickrOpts);
       },
       errorMsg.showLocationUnavailable);
   } else {
