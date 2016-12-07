@@ -17,7 +17,7 @@ function selectPhoto (fData) {
     return fData[0];
   }
 
-  fData = createImageURLData(fData);
+  fData = _createImageURLData(fData);
   fData = fData.filter(function (item) {
     return item.hasOwnProperty('url_t') && item.hasOwnProperty('url');
   });
@@ -25,26 +25,26 @@ function selectPhoto (fData) {
   return fData[randIndex];
 }
 
-function createImageURLData (items) {
+function _createImageURLData (items) {
   items.forEach(function (item) {
-    createImageURLDataPerItem(item);
+    _createImageURLDataPerItem(item);
   });
   return items;
 }
 
-function createImageURLDataPerItem (item) {
+function _createImageURLDataPerItem (item) {
   flickrOpts.getImageSizeMarkers().forEach(function (m) {
     var prop = 'url_' + m;
-    if (item.hasOwnProperty(prop) && isURLImageWithinBounds(item, m)) {
+    if (item.hasOwnProperty(prop) && _isURLImageWithinBounds(item, m)) {
       item.url = item[prop];
     }
   });
   return item;
 }
 
-function isURLImageWithinBounds (item, marker) {
-  var imageW = getImageWidth(item, marker);
-  var imageH = getImageHeight(item, marker);
+function _isURLImageWithinBounds (item, marker) {
+  var imageW = _getImageWidth(item, marker);
+  var imageH = _getImageHeight(item, marker);
   var screenW = screen.width;
   var screenH = screen.height;
   var minReqW = flickrOpts.getImageSizeCoeff().min * imageW <= screenW;
@@ -54,11 +54,11 @@ function isURLImageWithinBounds (item, marker) {
   return ((minReqW && maxReqW) && (minReqH && maxReqH));
 }
 
-function getImageWidth (item, marker) {
+function _getImageWidth (item, marker) {
   return item['width_' + marker];
 }
 
-function getImageHeight (item, marker) {
+function _getImageHeight (item, marker) {
   return item['height_' + marker];
 }
 
