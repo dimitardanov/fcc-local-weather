@@ -1,7 +1,8 @@
 
 var weatherReport = require('../renderers/weatherReport.js');
 var errorMsg = require('../renderers/errorMessages.js');
-var flickrAjax = require('./flickr.js');
+var setBgImage = require('./flickrCall.js');
+
 
 function getWeather (owm, flickrOpts) {
   $.ajax({
@@ -14,7 +15,7 @@ function getWeather (owm, flickrOpts) {
     success: function (data, status, jqxhr) {
       console.log(data);
       weatherReport.addWeatherHTML(data);
-      flickrAjax.searchFlickrPhotos(data, flickrOpts);
+      setBgImage(data, flickrOpts);
     },
     error: function (jqxhr, status, error) {
       errorMsg.showWeatherUnavailable();

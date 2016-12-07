@@ -67,6 +67,4 @@ function makeFlickrAPICall (wdata, flickrOpts) {
 }
 
 
-module.exports = {
-  searchFlickrPhotos: searchFlickrPhotos
-};
+module.exports = searchFlickrPhotos;
