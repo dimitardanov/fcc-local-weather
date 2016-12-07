@@ -9,5 +9,11 @@ module.exports = {
   5: {abbr: 'CC BY-SA 2.0', name: 'Attribution-ShareAlike License', url: 'http://creativecommons.org/licenses/by-sa/2.0/'},
   6: {abbr: 'CC BY-ND 2.0', name: 'Attribution-NoDerivs License', url: 'http://creativecommons.org/licenses/by-nd/2.0/'},
   7: {abbr: 'No known copyright restrictions', name: 'No known copyright restrictions', url: 'http://flickr.com/commons/usage/'},
-  8: {abbr: 'U.S. Government Works', name: 'United States Government Work', url: 'http://www.usa.gov/copyright.shtml'}
+  8: {abbr: 'U.S. Government Works', name: 'United States Government Work', url: 'http://www.usa.gov/copyright.shtml'},
+  getText: function (l) {
+    return this[l].abbr;
+  },
+  getURL: function (l) {
+    return this[l].url;
+  }
 };

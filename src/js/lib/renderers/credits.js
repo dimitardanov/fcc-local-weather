@@ -21,9 +21,8 @@ function _setPhotoCredits (data) {
 }
 
 function _setLicenseCredits (data) {
-  var i = parseInt(data.license, 10);
-  var licenseText = licenses[i].abbr;
-  var licenseUrl = licenses[i].url;
+  var licenseUrl = licenses.getURL(data.license);
+  var licenseText = licenses.getText(data.license);
   _setElementCredits('.photo-license', licenseText, licenseUrl);
 }
 
