@@ -2,16 +2,12 @@
 var flickrOpts = {
   imageMinCoeff: 0.8,
   imageMaxCoeff: 1.6,
-  maxNumPhotos: 1000,
   imageSizeMarkers: ['t', 'm', 'n', 'z', 'c', 'l', 'b', 'h', 'k', 'o'],
   getImageSizeMarkers: function () {
     return this.imageSizeMarkers;
   },
   getImageSizeCoeff: function () {
     return { max: this.imageMaxCoeff, min: this.imageMinCoeff };
-  },
-  getMaxNumPhotos: function () {
-    return this.maxNumPhotos;
   }
 };
 
@@ -28,9 +24,6 @@ function selectPhoto (fData) {
   fData = fData.filter(function (item) {
     return item.hasOwnProperty('url_t') && item.hasOwnProperty('url');
   });
-  if (fData.length > flickrOpts.getMaxNumPhotos()) {
-    fData = fData.slice(0, flickrOpts.getMaxNumPhotos());
-  }
   var randIndex = Math.floor(Math.random() * fData.length);
   return fData[randIndex];
 }
