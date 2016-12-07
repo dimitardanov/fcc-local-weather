@@ -8,7 +8,6 @@ $(function() {
   var helpers = require('./lib/helpers/helpers.js');
   var events = require('./lib/helpers/events.js');
   var getWeather = require('./lib/ajax/owmCall.js');
-  var flickrAjax = require('./lib/ajax/flickr.js');
 
   var queryObj = helpers.parseQueryStr();
 
