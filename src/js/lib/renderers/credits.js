@@ -6,28 +6,30 @@ function _setElementCredits (selector, text, url) {
   $element.attr('href', url);
 }
 
-function _setAuthorCredits (image) {
+function _setImageAuthorCredits (image) {
   var owner_name = image.getImageOwnerName();
   var owner_url = image.getImageOwnerURL();
   _setElementCredits('.photo-author', owner_name, owner_url);
 }
 
-function _setPhotoCredits (image) {
+function _setImageTitleCredits (image) {
   var photo_title = image.getImageTitle();
   var photo_url = image.getFlickrImagePageURL();
   _setElementCredits('.photo-title', photo_title, photo_url);
 }
 
-function _setLicenseCredits (image) {
+function _setImageLicenseCredits (image) {
   var licenseUrl = image.getImageLicenseURL();
   var licenseText = image.getImageLicenseText();
   _setElementCredits('.photo-license', licenseText, licenseUrl);
 }
 
-function setCredits (image) {
-  _setAuthorCredits(image);
-  _setPhotoCredits(image);
-  _setLicenseCredits(image);
+function setImageCredits (image) {
+  _setImageAuthorCredits(image);
+  _setImageTitleCredits(image);
+  _setImageLicenseCredits(image);
 }
 
-module.exports = setCredits;
+module.exports = {
+  setImageCredits: setImageCredits
+};

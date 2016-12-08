@@ -1,7 +1,7 @@
 
 var ImageSelector = require('../options/flickrImageSelect.js');
 var showBgPhoto = require('../renderers/bgPhoto.js');
-var setCredits = require('../renderers/credits.js');
+var credits = require('../renderers/credits.js');
 var events = require('../events/events.js');
 
 var firstSearch = true;
@@ -30,7 +30,7 @@ function makeFlickrAPICall (weather, flickrAjaxData) {
         var image = new ImageSelector(data.photos.photo);
         image.selectImage();
         showBgPhoto(image);
-        setCredits(image);
+        credits.setImageCredits(image);
         events.activateCredits();
       } else  if (firstSearch) {
         flickrAjaxData.removeBBox();
