@@ -20,7 +20,12 @@ function determineDaytimeStr () {
   }
 }
 
+function randIndex (len) {
+  return Math.floor(Math.random() * len);
+}
+
 module.exports = {
   parseQueryStr: parseQueryStr,
-  determineDaytimeStr: determineDaytimeStr
+  determineDaytimeStr: determineDaytimeStr,
+  randIndex: randIndex
 };

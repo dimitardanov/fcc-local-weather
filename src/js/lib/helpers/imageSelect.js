@@ -1,15 +1,16 @@
 
-var flickrOpts = {
-  imageMinCoeff: 0.8,
-  imageMaxCoeff: 1.6,
-  imageSizeMarkers: ['t', 'm', 'n', 'z', 'c', 'l', 'b', 'h', 'k', 'o'],
-  getImageSizeMarkers: function () {
-    return this.imageSizeMarkers;
-  },
-  getImageSizeCoeff: function () {
-    return { max: this.imageMaxCoeff, min: this.imageMinCoeff };
-  }
-};
+var helpers = require('./helpers.js');
+
+var imageSizeCoeffMin = 0.8;
+var imageSizeCoeffMax = 1.6;
+var imageSizeMarkers = ['t', 'm', 'n', 'z', 'c', 'l', 'b', 'h', 'k', 'o'];
+var thumbnailUrlProp = 'url_t';
+var urlProp = 'url';
+var urlPref = 'url_';
+var widthPref = 'width_';
+var heightPref = 'height_';
+
+
 
 
 function selectPhoto (fData) {
@@ -19,10 +20,9 @@ function selectPhoto (fData) {
 
   fData = _createImageURLData(fData);
   fData = fData.filter(function (item) {
-    return item.hasOwnProperty('url_t') && item.hasOwnProperty('url');
+    return item.hasOwnProperty(thumbnailUrlProp) && item.hasOwnProperty(urlProp);
   });
-  var randIndex = Math.floor(Math.random() * fData.length);
-  return fData[randIndex];
+  return fData[helpers.randIndex(fData.length)];
 }
 
 function _createImageURLData (items) {
@@ -33,33 +33,31 @@ function _createImageURLData (items) {
 }
 
 function _createImageURLDataPerItem (item) {
-  flickrOpts.getImageSizeMarkers().forEach(function (m) {
-    var prop = 'url_' + m;
-    if (item.hasOwnProperty(prop) && _isURLImageWithinBounds(item, m)) {
-      item.url = item[prop];
+  imageSizeMarkers.forEach(function (m) {
+    var prop = urlPref + m;
+    var imgW = _getImageWidth(item, m);
+    var imgH = _getImageHeight(item, m);
+    if (item.hasOwnProperty(prop) && _isURLImageWithinBounds(imgW, imgH)) {
+      item[urlProp] = item[prop];
     }
   });
   return item;
 }
 
-function _isURLImageWithinBounds (item, marker) {
-  var imageW = _getImageWidth(item, marker);
-  var imageH = _getImageHeight(item, marker);
-  var screenW = screen.width;
-  var screenH = screen.height;
-  var minReqW = flickrOpts.getImageSizeCoeff().min * imageW <= screenW;
-  var minReqH = flickrOpts.getImageSizeCoeff().min * imageH <= screenH;
-  var maxReqW = screenW <= flickrOpts.getImageSizeCoeff().max * imageW;
-  var maxReqH = screenH <= flickrOpts.getImageSizeCoeff().max * imageH;
+function _isURLImageWithinBounds (imageW, imageH) {
+  var minReqW = imageSizeCoeffMin * imageW <= screen.width;
+  var minReqH = imageSizeCoeffMin * imageH <= screen.height;
+  var maxReqW = screen.width <= imageSizeCoeffMax * imageW;
+  var maxReqH = screen.height <= imageSizeCoeffMax * imageH;
   return ((minReqW && maxReqW) && (minReqH && maxReqH));
 }
 
 function _getImageWidth (item, marker) {
-  return item['width_' + marker];
+  return item[widthPref + marker];
 }
 
 function _getImageHeight (item, marker) {
-  return item['height_' + marker];
+  return item[heightPref + marker];
 }
 
 
