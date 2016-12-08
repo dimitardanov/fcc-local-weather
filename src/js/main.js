@@ -6,7 +6,7 @@ $(function() {
   var WeatherAjaxData = require('./lib/options/owmAjaxData.js');
   var errorMsg = require('./lib/renderers/errorMessages.js');
   var helpers = require('./lib/helpers/helpers.js');
-  var events = require('./lib/helpers/events.js');
+  var events = require('./lib/events/events.js');
   var getWeather = require('./lib/ajax/owmCall.js');
 
   var queryObj = helpers.parseQueryStr();
