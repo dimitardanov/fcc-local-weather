@@ -6,7 +6,6 @@ $(function() {
   var WeatherAjaxData = require('./lib/options/owmAjaxData.js');
   var errorMsg = require('./lib/renderers/errorMessages.js');
   var helpers = require('./lib/helpers/helpers.js');
-  var events = require('./lib/events/events.js');
   var getWeather = require('./lib/ajax/owmCall.js');
 
   var queryObj = helpers.parseQueryStr();
@@ -28,6 +27,5 @@ $(function() {
     errorMsg.showLocationUnavailable();
   }
 
-  $('#weather-today').on('click', '#c-btn, #f-btn', events.c2fButtonToggle);
 
 });

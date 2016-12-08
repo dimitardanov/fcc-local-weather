@@ -1,6 +1,6 @@
 
 
-function c2fButtonToggle (e) {
+function _c2fButtonToggleHandler (e) {
   var $this = $(e.target);
   var $other = $($this.data('other-btn'));
   $('#temp-val').text($this.data('temp-val'));
@@ -8,6 +8,10 @@ function c2fButtonToggle (e) {
        .addClass('btn-primary');
   $other.addClass('btn-default')
         .removeClass('btn-primary');
+}
+
+function c2fButtonToggle () {
+  $('#weather-today').on('click', '#c-btn, #f-btn', _c2fButtonToggleHandler);
 }
 
 function activateCredits () {

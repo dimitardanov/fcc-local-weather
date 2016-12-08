@@ -3,7 +3,7 @@ var weatherReport = require('../renderers/weatherReport.js');
 var errorMsg = require('../renderers/errorMessages.js');
 var setBgImage = require('./flickrCall.js');
 var WeatherData = require('../options/owmResponseData.js');
-
+var events = require('../events/events.js');
 
 function getWeather (owm, flickrAjaxData) {
   $.ajax({
@@ -17,6 +17,7 @@ function getWeather (owm, flickrAjaxData) {
       console.log(data);
       var weather = new WeatherData(data);
       weatherReport.addWeatherHTML(weather);
+      events.c2fButtonToggle();
       setBgImage(weather, flickrAjaxData);
     },
     error: function (jqxhr, status, error) {
