@@ -1,5 +1,5 @@
 
-var helpers = require('./helpers.js');
+var helpers = require('../helpers/helpers.js');
 
 var absZeroC = -273.15;
 

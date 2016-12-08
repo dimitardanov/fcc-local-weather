@@ -2,7 +2,7 @@
 var weatherReport = require('../renderers/weatherReport.js');
 var errorMsg = require('../renderers/errorMessages.js');
 var setBgImage = require('./flickrCall.js');
-var WeatherData = require('../helpers/owmData.js');
+var WeatherData = require('../options/owmResponseData.js');
 
 
 function getWeather (owm, flickrAjaxData) {
