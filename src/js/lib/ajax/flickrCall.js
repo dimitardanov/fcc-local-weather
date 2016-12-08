@@ -1,7 +1,7 @@
 
-var selectPhoto = require('../helpers/imageSelect.js');
-var bgPhoto = require('../renderers/bgPhoto.js');
-var creditsRenderer = require('../renderers/credits.js');
+var ImageSelector = require('../helpers/imageSelect.js');
+var showBgPhoto = require('../renderers/bgPhoto.js');
+var setCredits = require('../renderers/credits.js');
 var events = require('../helpers/events.js');
 
 var firstSearch = true;
@@ -27,13 +27,10 @@ function makeFlickrAPICall (weather, flickrAjaxData) {
     dataType: 'json',
     success: function (data, status, jqxhr) {
       if (data.photos.total >= 1) {
-        var fData = data.photos.photo;
-        console.log('fdata');
-        console.log(fData);
-        var photoData = selectPhoto(fData);
-        console.log(photoData);
-        bgPhoto.showPhoto(photoData);
-        creditsRenderer.setCredits(photoData);
+        var image = new ImageSelector(data.photos.photo);
+        image.selectImage();
+        showBgPhoto(image);
+        setCredits(image);
         events.activateCredits();
       } else  if (firstSearch) {
         flickrAjaxData.removeBBox();

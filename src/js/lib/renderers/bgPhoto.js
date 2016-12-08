@@ -1,21 +1,21 @@
 
-function showPhoto (data) {
+function showBgPhoto (image) {
   var $body = $('body');
   var $bgCurtain = $('.cover');
   var $bgImage = $('.bg-image');
+  var thumbnailURL = image.getThumbnailURL();
+  var imageURL = image.getImageURL();
   $bgImage.css({
-    'background-image': 'url(' + data.url_t + ')'
+    'background-image': 'url(' + thumbnailURL + ')'
   });
   $bgCurtain.addClass('transparent');
   var img = new Image();
   img.addEventListener('load', function() {
-    $('head').append('<style>body {background-image: url(' + data.url + ');}</style>');
+    $('head').append('<style>body {background-image: url(' + imageURL + ');}</style>');
     $bgImage.addClass('transparent');
-    $('head').append('<style>.weather-report:before, footer::before {background-image: url(' + data.url + '); opacity: 1;}</style>');
+    $('head').append('<style>.weather-report:before, footer::before {background-image: url(' + imageURL + '); opacity: 1;}</style>');
   }, false);
-  img.src = data.url;
+  img.src = imageURL;
 }
 
-module.exports = {
-  showPhoto: showPhoto
-};
+module.exports = showBgPhoto;
