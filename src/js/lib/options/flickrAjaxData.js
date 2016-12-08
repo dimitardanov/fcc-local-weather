@@ -35,6 +35,7 @@ function FAD () {
   this.opts = options;
   this._setLicenses();
   this._setQueryExtraTerms();
+  this._setAPIKey(this.queryObjStr.api_key);
 }
 
 FAD.prototype = Object.create(AjaxData.prototype);
@@ -56,7 +57,7 @@ FAD.prototype._getImageSizeURLSuffixes = function () {
   });
 };
 
-FAD.prototype.setAPIKey = function (key) {
+FAD.prototype._setAPIKey = function (key) {
   this.queryData.api_key = key;
 };
 

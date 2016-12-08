@@ -10,13 +10,14 @@ var queryData = {
 
 function OWM () {
   AjaxData.call(this, url, queryData);
+  this._setAPIKey(this.queryObjStr.owm);
 }
 
 OWM.prototype = Object.create(AjaxData.prototype);
 OWM.prototype.constructor = OWM;
 
 
-OWM.prototype.setAPIKey = function (key) {
+OWM.prototype._setAPIKey = function (key) {
   this.queryData.APPID = key;
 };
 
