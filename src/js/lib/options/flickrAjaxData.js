@@ -1,5 +1,5 @@
 
-var AjaxData = require('./ajaxData.js');
+var AjaxData = require('./baseAjaxData.js');
 var helpers = require('../helpers/helpers.js');
 
 var url = 'https://api.flickr.com/services/rest/?';
