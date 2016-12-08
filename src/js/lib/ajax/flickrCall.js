@@ -1,5 +1,5 @@
 
-var ImageSelector = require('../options/flickrImageSelect.js');
+var ImageSelector = require('../data/flickrImageSelect.js');
 var showBgPhoto = require('../renderers/bgPhoto.js');
 var credits = require('../renderers/credits.js');
 var events = require('../events/events.js');

@@ -2,8 +2,8 @@
 
 $(function() {
 
-  var FlickrAjaxData = require('./lib/options/flickrAjaxData.js');
-  var WeatherAjaxData = require('./lib/options/owmAjaxData.js');
+  var FlickrAjaxData = require('./lib/data/flickrAjaxData.js');
+  var WeatherAjaxData = require('./lib/data/owmAjaxData.js');
   var errorMsg = require('./lib/renderers/errorMessages.js');
   var getWeather = require('./lib/ajax/owmCall.js');
 
