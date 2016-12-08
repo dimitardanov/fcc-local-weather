@@ -24,8 +24,14 @@ function randIndex (len) {
   return Math.floor(Math.random() * len);
 }
 
+function celsius2fahrenheit (tempC) {
+  return tempC * 1.8 + 32;
+}
+
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
-  randIndex: randIndex
+  randIndex: randIndex,
+  celsius2fahrenheit:celsius2fahrenheit
 };

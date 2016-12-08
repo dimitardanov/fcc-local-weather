@@ -36,7 +36,7 @@ WeatherData.prototype.getTemp = function () {
   var tempK = this.data.main.temp;
   var tempC = Math.round(tempK + absZeroC);
   tempK = Math.round(tempK);
-  var tempF = Math.round(_celsius2fahrenheit(tempC));
+  var tempF = Math.round(helpers.celsius2fahrenheit(tempC));
   return {K: tempK, C: tempC, F: tempF};
 };
 
@@ -53,8 +53,5 @@ WeatherData.prototype.getWeatherString = function () {
 };
 
 
-function _celsius2fahrenheit (tempC) {
-  return tempC * 1.8 + 32;
-}
 
 module.exports = WeatherData;
