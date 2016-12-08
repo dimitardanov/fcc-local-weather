@@ -1,6 +1,6 @@
 
-var helpers = require('./helpers.js');
-var licenses = require('../options/licenses.js');
+var helpers = require('../helpers/helpers.js');
+var licenses = require('./licenses.js');
 
 var imageSizeCoeffMin = 0.8;
 var imageSizeCoeffMax = 1.6;
