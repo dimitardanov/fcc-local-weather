@@ -4,6 +4,7 @@ var path = require('path');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var browserify = require('browserify');
+var hbsfy = require('hbsfy');
 var source = require("vinyl-source-stream");
 var buffer = require('vinyl-buffer');
 var sourcemaps = require('gulp-sourcemaps');
@@ -16,7 +17,8 @@ function jscompile () {
   // set up the browserify instance on a task basis
   var b = browserify({
     entries: [filesrc],
-    debug: true
+    debug: true,
+    transform: [hbsfy]
   });
 
   return b.bundle()
