@@ -1,0 +1,13 @@
+
+<h2 class="text-center"><i class="{{weatherIconClass}}"></i> {{town}}, <small>{{countryCode}}</small></h2>
+
+<p class="text-center small weather-description">{{weatherDescription}}</p>
+
+<section class="temp text-center">
+  <i class="wi wi-thermometer temp-icon"></i>
+  <span class="temp-val" id="temp-val">{{temp.C}}</span>
+  <div class="btn-group" role="group">
+    <button type="button" class="btn btn-primary" id="c-btn" data-temp-val="{{temp.C}}" data-other-btn="#f-btn">C</button>
+    <button type="button" class="btn btn-default" id="f-btn" data-temp-val="{{temp.F}}" data-other-btn="#c-btn">F</button>
+  </div>
+</section>
