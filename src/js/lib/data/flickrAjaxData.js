@@ -82,7 +82,7 @@ FAD.prototype.setTextSearchStr = function (weatherStr, firstSearch) {
 };
 
 FAD.prototype._createTextSearchStr = function (weatherStr, firstSearch) {
-  var daytimeStr = helpers.determineDaytimeStr();
+  var daytimeStr = helpers.determineDaytimeStr(new Date());
   var searchStr = weatherStr + ' ' + daytimeStr;
   if (firstSearch) {
     searchStr = searchStr + ' ' + this._getIncludeTerms();

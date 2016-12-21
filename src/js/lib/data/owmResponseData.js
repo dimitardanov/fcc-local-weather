@@ -17,7 +17,7 @@ WeatherData.prototype._getWeatherId = function () {
 
 WeatherData.prototype.getWeatherIconsClass = function () {
   var prefix = 'wi wi-owm-';
-  var dayStr = helpers.determineDaytimeStr();
+  var dayStr = helpers.determineDaytimeStr(new Date());
   if (dayStr.length > 0) {
     prefix = prefix + dayStr + '-';
   }

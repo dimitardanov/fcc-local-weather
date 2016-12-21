@@ -14,7 +14,6 @@ function parseQueryStr (searchStr) {
 }
 
 function determineDaytimeStr (date) {
-  date = date || new Date();
   var hour = date.getHours();
   if (hour > 6 && hour < 18) {
     return 'day';
