@@ -59,6 +59,12 @@ describe('Helper module', function () {
       this.expected1 = [90, 40, 110, 50];
     });
 
+    after(function () {
+      delete this.coordTols;
+      delete this.coords1;
+      delete this.expected1;
+    });
+
     it('should return a 4-element array', function () {
       expect(createBBox(this.coords1, this.coordTols)).to.be.an('array').with.length(4);
     });
