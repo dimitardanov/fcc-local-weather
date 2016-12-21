@@ -2,7 +2,6 @@
 
 function parseQueryStr (searchStr) {
   var qObj = {};
-  searchStr = searchStr || window.location.search;
   if (searchStr) {
     var search = searchStr.slice(1).split('&');
     search.forEach(function (item) {

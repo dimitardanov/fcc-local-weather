@@ -4,7 +4,7 @@ var helpers = require('../helpers/helpers.js');
 function AjaxData (url, query) {
   this.url = url;
   this.queryData = query;
-  this.queryObjStr = helpers.parseQueryStr();
+  this.queryObjStr = helpers.parseQueryStr(window.location.search);
 }
 
 AjaxData.prototype.getURL = function () {
