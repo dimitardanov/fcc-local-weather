@@ -1,12 +1,15 @@
 
 
-function parseQueryStr () {
+function parseQueryStr (searchStr) {
   var qObj = {};
-  var location = window.location.search.slice(1).split('&');
-  location.forEach(function (item) {
-    kv = item.split('=');
-    qObj[kv[0]] = kv[1];
-  });
+  searchStr = searchStr || window.location.search;
+  if (searchStr) {
+    var search = searchStr.slice(1).split('&');
+    search.forEach(function (item) {
+      kv = item.split('=');
+      qObj[kv[0]] = kv[1];
+    });
+  }
   return qObj;
 }
 

@@ -1,6 +1,7 @@
 var expect = require('chai').expect;
 var c2f = require('../lib/helpers/helpers').celsius2fahrenheit;
 var detDayStr = require('../lib/helpers/helpers').determineDaytimeStr;
+var parseQS = require('../lib/helpers/helpers').parseQueryStr;
 
 describe('Helper module', function () {
 
@@ -32,6 +33,20 @@ describe('Helper module', function () {
       expect(detDayStr(date1)).to.be.equal('night');
       expect(detDayStr(date2)).to.be.equal('night');
       expect(detDayStr(date3)).to.be.equal('night');
+    });
+  });
+
+  describe('parseQueryStr function', function () {
+
+    it('should return empty object if no query string present', function () {
+      var qs = '';
+      expect(parseQS(qs)).to.be.empty;
+    });
+
+    it('should return an object created from a query string', function () {
+      var qs = '?a=123&b=890';
+      var qObj = {b: '890', a: '123'};
+      expect(parseQS(qs)).to.be.deep.equal(qObj);
     });
   });
 
