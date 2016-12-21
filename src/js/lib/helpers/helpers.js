@@ -39,10 +39,19 @@ function flickrCreateBbox (coords, coordTols) {
 }
 
 
+function isImageWithinBounds (image, target, coeffs) {
+  var minReqW = coeffs.min * image.w <= target.w;
+  var minReqH = coeffs.min * image.h <= target.h;
+  var maxReqW = target.w <= coeffs.max * image.w;
+  var maxReqH = target.h <= coeffs.max * image.h;
+  return ((minReqW && maxReqW) && (minReqH && maxReqH));
+}
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
   randIndex: randIndex,
   celsius2fahrenheit:celsius2fahrenheit,
-  flickrCreateBbox: flickrCreateBbox
+  flickrCreateBbox: flickrCreateBbox,
+  isImageWithinBounds: isImageWithinBounds
 };

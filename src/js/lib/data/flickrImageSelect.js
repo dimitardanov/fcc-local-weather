@@ -84,22 +84,18 @@ function _createImageURLData (items) {
 function _createImageURLDataPerItem (item) {
   imageSizeMarkers.forEach(function (m) {
     var prop = urlPref + m;
-    var imgW = _getImageWidth(item, m);
-    var imgH = _getImageHeight(item, m);
-    if (item.hasOwnProperty(prop) && _isURLImageWithinBounds(imgW, imgH)) {
+    var imageSize = {w: _getImageWidth(item, m), h: _getImageHeight(item, m)};
+    var targetSize = {w: screen.width, h: screen.height};
+    var sizeCoeffs = {max: imageSizeCoeffMax, min: imageSizeCoeffMin};
+    if (
+      item.hasOwnProperty(prop) &&
+      helpers.isImageWithinBounds(imageSize, targetSize, sizeCoeffs)) {
       item[urlProp] = item[prop];
     }
   });
   return item;
 }
 
-function _isURLImageWithinBounds (imageW, imageH) {
-  var minReqW = imageSizeCoeffMin * imageW <= screen.width;
-  var minReqH = imageSizeCoeffMin * imageH <= screen.height;
-  var maxReqW = screen.width <= imageSizeCoeffMax * imageW;
-  var maxReqH = screen.height <= imageSizeCoeffMax * imageH;
-  return ((minReqW && maxReqW) && (minReqH && maxReqH));
-}
 
 function _getImageWidth (item, marker) {
   return item[widthPref + marker];
