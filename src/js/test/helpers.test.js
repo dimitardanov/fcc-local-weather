@@ -2,6 +2,7 @@ var expect = require('chai').expect;
 var c2f = require('../lib/helpers/helpers').celsius2fahrenheit;
 var detDayStr = require('../lib/helpers/helpers').determineDaytimeStr;
 var parseQS = require('../lib/helpers/helpers').parseQueryStr;
+var createBBox = require('../lib/helpers/helpers').flickrCreateBbox;
 
 describe('Helper module', function () {
 
@@ -47,6 +48,35 @@ describe('Helper module', function () {
       var qs = '?a=123&b=890';
       var qObj = {b: '890', a: '123'};
       expect(parseQS(qs)).to.be.deep.equal(qObj);
+    });
+  });
+
+  describe('flickrCreateBbox function', function () {
+
+    before(function () {
+      this.coordTols = {lat: 5, lon: 10};
+      this.coords1 = {lat: 45, lon: 100};
+      this.expected1 = [90, 40, 110, 50];
+    });
+
+    it('should return a 4-element array', function () {
+      expect(createBBox(this.coords1, this.coordTols)).to.be.an('array').with.length(4);
+    });
+
+    it('should return the coords of the corners of a rect surrounding the given longitude and lattide', function () {
+      expect(createBBox(this.coords1, this.coordTols)).to.be.deep.equal(this.expected1);
+    });
+
+    it('should limit longitude and latitude to the maximum values', function () {
+      var coords = {lat: 88, lon: 175};
+      var expected = [165, 83, 180, 90];
+      expect(createBBox(coords, this.coordTols)).to.be.deep.equal(expected);
+    });
+
+    it('should limit the longitude and latitude to the minumum values', function () {
+      var coords = {lat: -86, lon: -173};
+      var expected = [-180, -90, -163, -81];
+      expect(createBBox(coords, this.coordTols)).to.be.deep.equal(expected);
     });
   });
 
