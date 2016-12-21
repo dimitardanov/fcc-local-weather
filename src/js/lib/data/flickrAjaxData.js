@@ -98,7 +98,8 @@ FAD.prototype.getCoordTolerances = function () {
 };
 
 FAD.prototype.setBBox = function (coords) {
-  this.queryData.bbox = _createBboxStr(coords, this.getCoordTolerances());
+  var bbox = helpers.flickrCreateBbox(coords, this.getCoordTolerances());
+  this.queryData.bbox = bbox.join(',');
 };
 
 FAD.prototype.removeBBox = function () {
@@ -106,13 +107,5 @@ FAD.prototype.removeBBox = function () {
 };
 
 
-function _createBboxStr (coords, coordTols) {
-  var latMin = Math.max(coords.lat - coordTols.lat, -90);
-  var latMax = Math.min(coords.lat + coordTols.lat, 90);
-  var lonMin = Math.max(coords.lon - coordTols.lon, -180);
-  var lonMax = Math.min(coords.lon + coordTols.lon, 180);
-  var bbox = [lonMin, latMin, lonMax, latMax];
-  return bbox.join(',');
-}
 
 module.exports = FAD;

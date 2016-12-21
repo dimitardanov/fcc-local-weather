@@ -30,9 +30,19 @@ function celsius2fahrenheit (tempC) {
 }
 
 
+function flickrCreateBbox (coords, coordTols) {
+  var latMin = Math.max(coords.lat - coordTols.lat, -90);
+  var latMax = Math.min(coords.lat + coordTols.lat, 90);
+  var lonMin = Math.max(coords.lon - coordTols.lon, -180);
+  var lonMax = Math.min(coords.lon + coordTols.lon, 180);
+  return [lonMin, latMin, lonMax, latMax];
+}
+
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
   randIndex: randIndex,
-  celsius2fahrenheit:celsius2fahrenheit
+  celsius2fahrenheit:celsius2fahrenheit,
+  flickrCreateBbox: flickrCreateBbox
 };
