@@ -4,6 +4,7 @@ var detDayStr = require('../lib/helpers/helpers').determineDaytimeStr;
 var parseQS = require('../lib/helpers/helpers').parseQueryStr;
 var createBBox = require('../lib/helpers/helpers').flickrCreateBbox;
 var isImageWB = require('../lib/helpers/helpers').isImageWithinBounds;
+var prepST = require('../lib/helpers/helpers').prepSearchTerms;
 
 describe('Helper module', function () {
 
@@ -134,6 +135,32 @@ describe('Helper module', function () {
       expect(isImageWB(this.image, target3, this.coeffs)).to.be.false;
       var target4 = {w: 60, h: 120};
       expect(isImageWB(this.image, target4, this.coeffs)).to.be.false;
+    });
+  });
+
+  describe('prepSearchTerms function', function () {
+
+    before(function () {
+      this.terms = ['term1', 'term2', 'term3'];
+    });
+
+    after(function () {
+      delete this.terms;
+    });
+
+    it('should return an empty string if given an empty array', function () {
+      expect(prepST([], true)).to.be.a('string').with.length(0);
+      expect(prepST([], false)).to.be.a('string').with.length(0);
+    });
+
+    it('should join the items of the given array with a ","', function () {
+      var expected = 'term1,term2,term3';
+      expect(prepST(this.terms, false)).to.be.deep.equal(expected);
+    });
+
+    it('should add a "-" in front of every item of the given array, if exclude param is true', function () {
+      var expected = '-term1,-term2,-term3';
+      expect(prepST(this.terms, true)).to.be.deep.equal(expected);
     });
   });
 
