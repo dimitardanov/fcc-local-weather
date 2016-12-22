@@ -48,6 +48,21 @@ function isImageWithinBounds (image, target, coeffs) {
 }
 
 
+function createImageSearchStr (weather, terms, daytimeStr, firstSearch) {
+  var search = [weather, daytimeStr];
+  if (firstSearch) {
+    var inclTerms = prepSearchTerms(terms.incl, false);
+    search.push(inclTerms);
+  } else {
+    var addTerms = prepSearchTerms(terms.add, false);
+    search.push(addTerms);
+  }
+  var exclTerms = prepSearchTerms(terms.excl, true);
+  search.push(exclTerms)
+  return search.join(' ');
+}
+
+
 function prepSearchTerms (terms, exclude) {
   if (exclude && terms.length > 0) {
     terms = terms.map(function (term) {
@@ -65,5 +80,6 @@ module.exports = {
   celsius2fahrenheit:celsius2fahrenheit,
   flickrCreateBbox: flickrCreateBbox,
   isImageWithinBounds: isImageWithinBounds,
-  prepSearchTerms: prepSearchTerms
+  prepSearchTerms: prepSearchTerms,
+  createImageSearchStr: createImageSearchStr
 };
