@@ -30,6 +30,10 @@ module.exports = function(config) {
     // test results reporter to use
     reporters: ['mocha', 'coverage'],
 
+    mochaReporter: {
+      showDiff: true
+    },
+
     coverageReporter: {
       reporters: [
         {
