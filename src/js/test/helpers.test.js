@@ -153,13 +153,13 @@ describe('Helper module', function () {
       expect(prepST([], false)).to.be.a('string').with.length(0);
     });
 
-    it('should join the items of the given array with a ","', function () {
-      var expected = 'term1,term2,term3';
+    it('should join the items of the given array with a " "', function () {
+      var expected = 'term1 term2 term3';
       expect(prepST(this.terms, false)).to.be.deep.equal(expected);
     });
 
     it('should add a "-" in front of every item of the given array, if exclude param is true', function () {
-      var expected = '-term1,-term2,-term3';
+      var expected = '-term1 -term2 -term3';
       expect(prepST(this.terms, true)).to.be.deep.equal(expected);
     });
   });

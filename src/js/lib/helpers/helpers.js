@@ -54,7 +54,7 @@ function prepSearchTerms (terms, exclude) {
       return '-' + term;
     });
   }
-  return terms.join(',');
+  return terms.join(' ');
 }
 
 
