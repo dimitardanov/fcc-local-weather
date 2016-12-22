@@ -8,6 +8,7 @@ var prepST = require('../lib/helpers/helpers').prepSearchTerms;
 var createISS = require('../lib/helpers/helpers').createImageSearchStr;
 var getIM = require('../lib/helpers/helpers').getImageMarkers;
 var imageMD = require('./fixtures/flickrImageMetadataFixture');
+var calcImageSize = require('../lib/helpers/helpers').calcImageSize;
 
 describe('Helper module', function () {
 
@@ -214,6 +215,26 @@ describe('Helper module', function () {
     it('should return image size markers', function () {
       var expected = ['t', 'm', 'n', 'z', 'c', 'l', 'h', 'k', 'o'].sort();
       expect(getIM(imageMD, this.prefix).sort()).to.be.deep.equal(expected);
+    });
+  });
+
+  describe('calcImageSize function', function () {
+
+    it('should calculate the image size for an image with a give marker', function() {
+      var marker = 'c';
+      var expected = 272800;
+      expect(calcImageSize(imageMD, marker)).to.be.equal(expected);
+    });
+
+    it('should convert strings to integers and return a number', function () {
+      var marker = 't';
+      var expected = 4300;
+      expect(calcImageSize(imageMD, marker)).to.be.a('number').equal(expected);
+    });
+
+    it('should throw an error if given an invalid marker', function () {
+      var marker = 'a';
+      expect(function () {calcImageSize(imageMD, marker);}).to.throw(Error);
     });
   });
 });

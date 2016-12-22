@@ -15,7 +15,7 @@ module.exports = {
   "width_z": "640",
   "url_c": "https:\/\/farm4.staticflickr.com\/1234\/987654321_abcde1234_c.jpg",
   "height_c": 341,
-  "width_c": "800",
+  "width_c": 800,
   "url_l": "https:\/\/farm4.staticflickr.com\/1234\/987654321_abcde1234_b.jpg",
   "height_l": "436",
   "width_l": "1024",
