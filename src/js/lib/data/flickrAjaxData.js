@@ -65,32 +65,14 @@ FAD.prototype.hasAPIKey = function () {
   return Boolean(this.queryData.api_key);
 };
 
-FAD.prototype._getExcludeTerms = function () {
-  return '-' + this.opts.termsExclude.join(' -');
-};
-
-FAD.prototype._getIncludeTerms = function () {
-  return this.opts.termsInclude.join(' ');
-};
-
-FAD.prototype._getAdditionalTerms = function () {
-  return this.opts.termsAdditional.join(' ');
-};
-
 FAD.prototype.setTextSearchStr = function (weatherStr, firstSearch) {
-  this.queryData.text = this._createTextSearchStr(weatherStr, firstSearch);
-};
-
-FAD.prototype._createTextSearchStr = function (weatherStr, firstSearch) {
+  var terms = {
+    incl: this.opts.termsInclude,
+    add: this.opts.termsAdditional,
+    excl: this.opts.termsExclude
+  };
   var daytimeStr = helpers.determineDaytimeStr(new Date());
-  var searchStr = weatherStr + ' ' + daytimeStr;
-  if (firstSearch) {
-    searchStr = searchStr + ' ' + this._getIncludeTerms();
-  } else {
-    searchStr = searchStr + ' ' + this._getAdditionalTerms();
-  }
-  searchStr = searchStr + ' ' + this._getExcludeTerms();
-  return searchStr;
+  this.queryData.text = helpers.createImageSearchStr(weatherStr, terms, daytimeStr, firstSearch);
 };
 
 FAD.prototype.getCoordTolerances = function () {
