@@ -2,8 +2,7 @@
 var helpers = require('../helpers/helpers.js');
 var licenses = require('./licenses.js');
 
-var imageSizeCoeffMin = 0.8;
-var imageSizeCoeffMax = 1.6;
+var sizeCoeffs = {min: 0.8, max: 1.6};
 var imageSizeMarkers = ['t', 'm', 'n', 'z', 'c', 'l', 'b', 'h', 'k', 'o'];
 var thumbnailUrlProp = 'url_t';
 var urlProp = 'url';
@@ -76,17 +75,16 @@ function _selectPhoto (fData) {
 
 function _createImageURLData (items) {
   items.forEach(function (item) {
-    _createImageURLDataPerItem(item);
+    _createImageURLDataPerItem(item, sizeCoeffs);
   });
   return items;
 }
 
-function _createImageURLDataPerItem (item) {
+function _createImageURLDataPerItem (item, sizeCoeffs) {
   imageSizeMarkers.forEach(function (m) {
     var prop = urlPref + m;
     var imageSize = {w: _getImageWidth(item, m), h: _getImageHeight(item, m)};
     var targetSize = {w: screen.width, h: screen.height};
-    var sizeCoeffs = {max: imageSizeCoeffMax, min: imageSizeCoeffMin};
     if (
       item.hasOwnProperty(prop) &&
       helpers.isImageWithinBounds(imageSize, targetSize, sizeCoeffs)) {
