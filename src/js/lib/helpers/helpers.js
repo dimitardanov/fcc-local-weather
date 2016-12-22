@@ -85,6 +85,18 @@ function getImageMarkers (image, prefix) {
 }
 
 
+function calcImageSize (item, marker) {
+  var width = item['width_' + marker];
+  var height = item['height_' + marker];
+  var imgSize = parseInt(width, 10) * parseInt(height, 10);
+  if (isNaN(imgSize)) {
+    throw new Error('image size for marker: ' + marker + ' not a number');
+  } else {
+    return imgSize;
+  }
+}
+
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
@@ -94,5 +106,6 @@ module.exports = {
   isImageWithinBounds: isImageWithinBounds,
   prepSearchTerms: prepSearchTerms,
   createImageSearchStr: createImageSearchStr,
-  getImageMarkers: getImageMarkers
+  getImageMarkers: getImageMarkers,
+  calcImageSize: calcImageSize
 };
