@@ -58,7 +58,7 @@ function createImageSearchStr (weather, terms, daytimeStr, firstSearch) {
     search.push(addTerms);
   }
   var exclTerms = prepSearchTerms(terms.excl, true);
-  search.push(exclTerms)
+  search.push(exclTerms);
   return search.join(' ');
 }
 

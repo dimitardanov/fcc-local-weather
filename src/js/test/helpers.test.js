@@ -5,6 +5,7 @@ var parseQS = require('../lib/helpers/helpers').parseQueryStr;
 var createBBox = require('../lib/helpers/helpers').flickrCreateBbox;
 var isImageWB = require('../lib/helpers/helpers').isImageWithinBounds;
 var prepST = require('../lib/helpers/helpers').prepSearchTerms;
+var createISS = require('../lib/helpers/helpers').createImageSearchStr;
 
 describe('Helper module', function () {
 
@@ -161,6 +162,31 @@ describe('Helper module', function () {
     it('should add a "-" in front of every item of the given array, if exclude param is true', function () {
       var expected = '-term1 -term2 -term3';
       expect(prepST(this.terms, true)).to.be.deep.equal(expected);
+    });
+  });
+
+  describe('createImageSearchStr function', function () {
+
+    before(function () {
+      this.terms = {
+        incl: ['incl1', 'incl2', 'incl3'],
+        add: ['add1', 'add2'],
+        excl: ['excl1', 'excl2']
+      };
+    });
+
+    after(function () {
+      delete this.terms;
+    });
+
+    it('should create a search string for a first ajax call', function () {
+      var expected = 'weather day incl1 incl2 incl3 -excl1 -excl2';
+      expect(createISS('weather', this.terms, 'day', true)).to.be.equal(expected);
+    });
+
+    it('should create a search string for a second ajax call', function () {
+      var expected = 'clear sky night add1 add2 -excl1 -excl2';
+      expect(createISS('clear sky', this.terms, 'night', false)).to.be.equal(expected);
     });
   });
 
