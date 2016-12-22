@@ -73,6 +73,18 @@ function prepSearchTerms (terms, exclude) {
 }
 
 
+function getImageMarkers (image, prefix) {
+  var imageMarkers = [];
+  prefix = new RegExp(prefix);
+  for (var prop in image) {
+    if (prop.match(prefix) && image.hasOwnProperty(prop)) {
+      imageMarkers.push(prop.split('_')[1]);
+    }
+  }
+  return imageMarkers;
+}
+
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
@@ -81,5 +93,6 @@ module.exports = {
   flickrCreateBbox: flickrCreateBbox,
   isImageWithinBounds: isImageWithinBounds,
   prepSearchTerms: prepSearchTerms,
-  createImageSearchStr: createImageSearchStr
+  createImageSearchStr: createImageSearchStr,
+  getImageMarkers: getImageMarkers
 };
