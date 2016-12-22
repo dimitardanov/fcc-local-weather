@@ -47,11 +47,23 @@ function isImageWithinBounds (image, target, coeffs) {
   return ((minReqW && maxReqW) && (minReqH && maxReqH));
 }
 
+
+function prepSearchTerms (terms, exclude) {
+  if (exclude && terms.length > 0) {
+    terms = terms.map(function (term) {
+      return '-' + term;
+    });
+  }
+  return terms.join(',');
+}
+
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
   randIndex: randIndex,
   celsius2fahrenheit:celsius2fahrenheit,
   flickrCreateBbox: flickrCreateBbox,
-  isImageWithinBounds: isImageWithinBounds
+  isImageWithinBounds: isImageWithinBounds,
+  prepSearchTerms: prepSearchTerms
 };
