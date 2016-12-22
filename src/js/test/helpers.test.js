@@ -3,6 +3,7 @@ var c2f = require('../lib/helpers/helpers').celsius2fahrenheit;
 var detDayStr = require('../lib/helpers/helpers').determineDaytimeStr;
 var parseQS = require('../lib/helpers/helpers').parseQueryStr;
 var createBBox = require('../lib/helpers/helpers').flickrCreateBbox;
+var isImageWB = require('../lib/helpers/helpers').isImageWithinBounds;
 
 describe('Helper module', function () {
 
@@ -83,6 +84,56 @@ describe('Helper module', function () {
       var coords = {lat: -86, lon: -173};
       var expected = [-180, -90, -163, -81];
       expect(createBBox(coords, this.coordTols)).to.be.deep.equal(expected);
+    });
+  });
+
+  describe('isImageWithinBounds function', function () {
+
+    before(function () {
+      this.image = {w: 100, h: 200};
+      this.coeffs = {min: 0.8, max: 1.2};
+    });
+
+    after(function () {
+      delete this.image;
+      delete this.coeffs;
+    });
+
+    it('should return true if image and target have equal dimensions', function () {
+      var target1 = {w: 100, h: 200};
+      expect(isImageWB(this.image, target1, this.coeffs)).to.be.true;
+    });
+
+    it('should return true if image larger than target and within coeff bounds', function () {
+      var target2 = {w: 90, h: 180};
+      expect(isImageWB(this.image, target2, this.coeffs)).to.be.true;
+    });
+
+    it('should return true if image is smaller than target and within coeff bounds', function () {
+      var target3 = {w: 110, h: 220};
+      expect(isImageWB(this.image, target3, this.coeffs)).to.be.true;
+    });
+
+    it('should return false if one of image\'s dimensions is outside the bounds', function () {
+      var target1 = {w: 110, h: 250};
+      expect(isImageWB(this.image, target1, this.coeffs)).to.be.false;
+      var target2 = {w: 130, h: 220};
+      expect(isImageWB(this.image, target2, this.coeffs)).to.be.false;
+      var target3 = {w: 70, h: 220};
+      expect(isImageWB(this.image, target3, this.coeffs)).to.be.false;
+      var target4 = {w: 90, h: 150};
+      expect(isImageWB(this.image, target4, this.coeffs)).to.be.false;
+    });
+
+    it('should return false if both image\'s height and width are outside of the bounds', function () {
+      var target1 = {w: 130, h: 260};
+      expect(isImageWB(this.image, target1, this.coeffs)).to.be.false;
+      var target2 = {w: 130, h: 120};
+      expect(isImageWB(this.image, target2, this.coeffs)).to.be.false;
+      var target3 = {w: 60, h: 260};
+      expect(isImageWB(this.image, target3, this.coeffs)).to.be.false;
+      var target4 = {w: 60, h: 120};
+      expect(isImageWB(this.image, target4, this.coeffs)).to.be.false;
     });
   });
 
