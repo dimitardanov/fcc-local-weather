@@ -7,6 +7,7 @@ var isImageWB = require('../lib/helpers/helpers').isImageWithinBounds;
 var prepST = require('../lib/helpers/helpers').prepSearchTerms;
 var createISS = require('../lib/helpers/helpers').createImageSearchStr;
 var getIM = require('../lib/helpers/helpers').getImageMarkers;
+var imageMD = require('./fixtures/flickrImageMetadataFixture');
 
 describe('Helper module', function () {
 
@@ -194,42 +195,10 @@ describe('Helper module', function () {
   describe('getImageMarkers function', function () {
 
     before(function () {
-      this.image = {
-        "ownername": "Owner Name",
-        "views": "8673",
-        "url_t": "https:\/\/farm4.staticflickr.com\/1234\/987654321_abcde1234_t.jpg",
-        "height_t": "43",
-        "width_t": "100",
-        "url_m": "https:\/\/farm4.staticflickr.com\/1234\/987654321_abcde1234.jpg",
-        "height_m": "213",
-        "width_m": "500",
-        "url_n": "https:\/\/farm4.staticflickr.com\/1234\/987654321_abcde1234_n.jpg",
-        "height_n": 136,
-        "width_n": "320",
-        "url_z": "https:\/\/farm4.staticflickr.com\/1234\/987654321_abcde1234_z.jpg",
-        "height_z": "273",
-        "width_z": "640",
-        "url_c": "https:\/\/farm4.staticflickr.com\/1234\/987654321_abcde1234_c.jpg",
-        "height_c": 341,
-        "width_c": "800",
-        "url_l": "https:\/\/farm4.staticflickr.com\/1234\/987654321_abcde1234_b.jpg",
-        "height_l": "436",
-        "width_l": "1024",
-        "url_h": "https:\/\/farm4.staticflickr.com\/1234\/987654321_afbd12_h.jpg",
-        "height_h": 681,
-        "width_h": "1600",
-        "url_k": "https:\/\/farm4.staticflickr.com\/1234\/987654321_aeaa123_k.jpg",
-        "height_k": 872,
-        "width_k": "2048",
-        "url_o": "https:\/\/farm4.staticflickr.com\/1234\/987654321_123abc123_o.jpg",
-        "height_o": "2377",
-        "width_o": "5585"
-      };
       this.prefix = 'url_';
     });
 
     after(function () {
-      delete this.image;
       delete this.prefix;
     });
 
@@ -239,12 +208,12 @@ describe('Helper module', function () {
 
     it('should return an empty array if the prefix doesn\'t match a property', function () {
       var prefix = 'noPrefix';
-      expect(getIM(this.image, prefix)).to.be.an('array').with.length(0);
+      expect(getIM(imageMD, prefix)).to.be.an('array').with.length(0);
     });
 
     it('should return image size markers', function () {
       var expected = ['t', 'm', 'n', 'z', 'c', 'l', 'h', 'k', 'o'].sort();
-      expect(getIM(this.image, this.prefix).sort()).to.be.deep.equal(expected);
+      expect(getIM(imageMD, this.prefix).sort()).to.be.deep.equal(expected);
     });
   });
 });
