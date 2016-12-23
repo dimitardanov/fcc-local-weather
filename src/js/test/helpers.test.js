@@ -10,6 +10,7 @@ var getIM = require('../lib/helpers/helpers').getImageMarkers;
 var imageMD = require('./fixtures/flickrImageMetadataFixture');
 var calcImageSize = require('../lib/helpers/helpers').calcImageSize;
 var getImageDim = require('../lib/helpers/helpers').getImageDimensions;
+var getImageURL = require('../lib/helpers/helpers').getImageURL;
 
 describe('Helper module', function () {
 
@@ -253,6 +254,15 @@ describe('Helper module', function () {
     it('should return numbers as values of the object', function () {
       var expected = {w: 100, h: 43};
       expect(getImageDim(imageMD, 't')).to.be.deep.equal(expected);
+    });
+  });
+
+  describe('getImageURL function', function () {
+
+    it('should retrieve the url of an image for a marker', function () {
+      var m = 't';
+      var expected = 'https://farm4.staticflickr.com/1234/987654321_abcde1234_t.jpg';
+      expect(getImageURL(imageMD, m)).to.be.equal(expected);
     });
   });
 });
