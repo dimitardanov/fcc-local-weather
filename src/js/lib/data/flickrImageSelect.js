@@ -7,8 +7,6 @@ var imageSizeMarkers = ['t', 'm', 'n', 'z', 'c', 'l', 'b', 'h', 'k', 'o'];
 var thumbnailUrlProp = 'url_t';
 var urlProp = 'url';
 var urlPref = 'url_';
-var widthPref = 'width_';
-var heightPref = 'height_';
 var imageOwnerNameProp = 'ownername';
 var imageOwnerURLId = 'owner';
 var imageTitlePref = 'title';
@@ -62,45 +60,14 @@ ImageSelector.prototype.getImageLicenseText = function () {
 
 
 function _selectPhoto (fData) {
-  if (fData.length === 1) {
-    return fData[0];
-  }
-
-  fData = _createImageURLData(fData);
-  fData = fData.filter(function (item) {
-    return item.hasOwnProperty(thumbnailUrlProp) && item.hasOwnProperty(urlProp);
+  var target = {w: screen.width, h: screen.height};
+  fData.map(function (item) {
+    var markers = helpers.getImageMarkers(item, urlPref);
+    markers = helpers.sortMarkersByImageSize(item, markers);
+    item[thumbnailUrlProp] = helpers.getThumbnailURL(item, markers);
+    item[urlProp] = helpers.getBgImageURL(item, markers, target, sizeCoeffs);
   });
   return fData[helpers.randIndex(fData.length)];
-}
-
-function _createImageURLData (items) {
-  items.forEach(function (item) {
-    _createImageURLDataPerItem(item, sizeCoeffs);
-  });
-  return items;
-}
-
-function _createImageURLDataPerItem (item, sizeCoeffs) {
-  imageSizeMarkers.forEach(function (m) {
-    var prop = urlPref + m;
-    var imageSize = {w: _getImageWidth(item, m), h: _getImageHeight(item, m)};
-    var targetSize = {w: screen.width, h: screen.height};
-    if (
-      item.hasOwnProperty(prop) &&
-      helpers.isImageWithinBounds(imageSize, targetSize, sizeCoeffs)) {
-      item[urlProp] = item[prop];
-    }
-  });
-  return item;
-}
-
-
-function _getImageWidth (item, marker) {
-  return item[widthPref + marker];
-}
-
-function _getImageHeight (item, marker) {
-  return item[heightPref + marker];
 }
 
 
