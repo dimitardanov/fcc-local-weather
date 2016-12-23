@@ -12,6 +12,7 @@ var calcImageSize = require('../lib/helpers/helpers').calcImageSize;
 var getImageDim = require('../lib/helpers/helpers').getImageDimensions;
 var getImageURL = require('../lib/helpers/helpers').getImageURL;
 var sortMIS = require('../lib/helpers/helpers').sortMarkersByImageSize;
+var getBgIURL = require('../lib/helpers/helpers').getBgImageURL;
 
 describe('Helper module', function () {
 
@@ -273,6 +274,25 @@ describe('Helper module', function () {
       var markers = ['k', 'h', 'l'];
       var expected = ['l', 'h', 'k'];
       expect(sortMIS(imageMD, markers)).to.be.deep.equal(expected);
+    });
+  });
+
+  describe('getBgImageURL function', function () {
+
+    it('should return the url of the largest image, if none is within bounds', function () {
+      var markers = ['c', 'l', 'h'];
+      var target = {w: 100, h: 200};
+      var coeffs = {min: 0.9, max: 1.1};
+      var expected =  'https://farm4.staticflickr.com/1234/987654321_afbd12_h.jpg';
+      expect(getBgIURL(imageMD, markers, target, coeffs)).to.be.equal(expected);
+    });
+
+    it('should return the url of an image close to the target size, if such exists', function () {
+      var markers = ['t', 'n', 'h', 'o'];
+      var target = {w: 1500, h: 700};
+      var coeffs = {min: 0.8, max: 1.2};
+      var expected = 'https://farm4.staticflickr.com/1234/987654321_afbd12_h.jpg';
+      expect(getBgIURL(imageMD, markers, target, coeffs)).to.be.equal(expected);
     });
   });
 });
