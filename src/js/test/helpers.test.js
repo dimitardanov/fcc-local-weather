@@ -11,6 +11,7 @@ var imageMD = require('./fixtures/flickrImageMetadataFixture');
 var calcImageSize = require('../lib/helpers/helpers').calcImageSize;
 var getImageDim = require('../lib/helpers/helpers').getImageDimensions;
 var getImageURL = require('../lib/helpers/helpers').getImageURL;
+var sortMIS = require('../lib/helpers/helpers').sortMarkersByImageSize;
 
 describe('Helper module', function () {
 
@@ -263,6 +264,15 @@ describe('Helper module', function () {
       var m = 't';
       var expected = 'https://farm4.staticflickr.com/1234/987654321_abcde1234_t.jpg';
       expect(getImageURL(imageMD, m)).to.be.equal(expected);
+    });
+  });
+
+  describe('sortMarkersByImageSize function', function () {
+
+    it('should return sorted markers based on ascending image size', function () {
+      var markers = ['k', 'h', 'l'];
+      var expected = ['l', 'h', 'k'];
+      expect(sortMIS(imageMD, markers)).to.be.deep.equal(expected);
     });
   });
 });
