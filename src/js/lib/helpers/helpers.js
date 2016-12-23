@@ -86,13 +86,11 @@ function getImageMarkers (image, prefix) {
 
 
 function calcImageSize (item, marker) {
-  var width = item['width_' + marker];
-  var height = item['height_' + marker];
-  var imgSize = parseInt(width, 10) * parseInt(height, 10);
-  if (isNaN(imgSize)) {
+  var size = getImageDimensions(item, marker);
+  if (Object.keys(size).length === 0) {
     throw new Error('image size for marker: ' + marker + ' not a number');
   } else {
-    return imgSize;
+    return size.w * size.h;
   }
 }
 
