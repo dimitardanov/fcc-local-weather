@@ -9,6 +9,7 @@ var createISS = require('../lib/helpers/helpers').createImageSearchStr;
 var getIM = require('../lib/helpers/helpers').getImageMarkers;
 var imageMD = require('./fixtures/flickrImageMetadataFixture');
 var calcImageSize = require('../lib/helpers/helpers').calcImageSize;
+var getImageDim = require('../lib/helpers/helpers').getImageDimensions;
 
 describe('Helper module', function () {
 
@@ -235,6 +236,23 @@ describe('Helper module', function () {
     it('should throw an error if given an invalid marker', function () {
       var marker = 'a';
       expect(function () {calcImageSize(imageMD, marker);}).to.throw(Error);
+    });
+  });
+
+  describe('getImageDimensions function', function () {
+
+    it('should return an empty object for invalid marker', function () {
+      expect(getImageDim(imageMD, 'a')).to.be.an('object').to.be.empty;
+    });
+
+    it('should return the image dimensions for a marker', function () {
+      var expected = {w: 800, h: 341};
+      expect(getImageDim(imageMD, 'c')).to.be.deep.equal(expected);
+    });
+
+    it('should return numbers as values of the object', function () {
+      var expected = {w: 100, h: 43};
+      expect(getImageDim(imageMD, 't')).to.be.deep.equal(expected);
     });
   });
 });
