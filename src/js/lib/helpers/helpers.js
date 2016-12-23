@@ -112,6 +112,15 @@ function getImageURL (item, marker) {
 }
 
 
+function sortMarkersByImageSize (item, markers) {
+  return markers.sort(function (m1, m2) {
+    var imgSize1 = calcImageSize(item, m1);
+    var imgSize2 = calcImageSize(item, m2);
+    return imgSize1 - imgSize2;
+  });
+}
+
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
@@ -124,5 +133,6 @@ module.exports = {
   getImageMarkers: getImageMarkers,
   calcImageSize: calcImageSize,
   getImageDimensions: getImageDimensions,
-  getImageURL: getImageURL
+  getImageURL: getImageURL,
+  sortMarkersByImageSize: sortMarkersByImageSize
 };
