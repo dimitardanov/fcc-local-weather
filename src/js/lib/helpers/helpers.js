@@ -97,6 +97,18 @@ function calcImageSize (item, marker) {
 }
 
 
+function getImageDimensions (item, marker) {
+  var size = {};
+  var prop_w = 'width_' + marker;
+  var prop_h = 'height_' + marker;
+  if (item.hasOwnProperty(prop_w) && item.hasOwnProperty(prop_h)) {
+    size.w = parseInt(item[prop_w], 10);
+    size.h = parseInt(item[prop_h], 10);
+  }
+  return size;
+}
+
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
@@ -107,5 +119,6 @@ module.exports = {
   prepSearchTerms: prepSearchTerms,
   createImageSearchStr: createImageSearchStr,
   getImageMarkers: getImageMarkers,
-  calcImageSize: calcImageSize
+  calcImageSize: calcImageSize,
+  getImageDimensions: getImageDimensions
 };
