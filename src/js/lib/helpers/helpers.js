@@ -107,6 +107,11 @@ function getImageDimensions (item, marker) {
 }
 
 
+function getImageURL (item, marker) {
+  return item['url_' + marker];
+}
+
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
@@ -118,5 +123,6 @@ module.exports = {
   createImageSearchStr: createImageSearchStr,
   getImageMarkers: getImageMarkers,
   calcImageSize: calcImageSize,
-  getImageDimensions: getImageDimensions
+  getImageDimensions: getImageDimensions,
+  getImageURL: getImageURL
 };
