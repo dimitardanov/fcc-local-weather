@@ -121,6 +121,11 @@ function sortMarkersByImageSize (item, markers) {
 }
 
 
+function getThumbnailURL (item, sortedMarkers) {
+  return getImageURL(item, sortedMarkers[0]);
+}
+
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
@@ -134,5 +139,6 @@ module.exports = {
   calcImageSize: calcImageSize,
   getImageDimensions: getImageDimensions,
   getImageURL: getImageURL,
-  sortMarkersByImageSize: sortMarkersByImageSize
+  sortMarkersByImageSize: sortMarkersByImageSize,
+  getThumbnailURL: getThumbnailURL
 };
