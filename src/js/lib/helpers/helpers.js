@@ -126,6 +126,18 @@ function getThumbnailURL (item, sortedMarkers) {
 }
 
 
+function getBgImageURL (item, sMarkers, target, coeffs) {
+  var marker = sMarkers[sMarkers.length - 1];
+  sMarkers.forEach(function (m) {
+    var size = getImageDimensions(item, m);
+    if (isImageWithinBounds(size, target, coeffs)) {
+      marker = m;
+    }
+  });
+  return getImageURL(item, marker);
+}
+
+
 module.exports = {
   parseQueryStr: parseQueryStr,
   determineDaytimeStr: determineDaytimeStr,
@@ -140,5 +152,6 @@ module.exports = {
   getImageDimensions: getImageDimensions,
   getImageURL: getImageURL,
   sortMarkersByImageSize: sortMarkersByImageSize,
-  getThumbnailURL: getThumbnailURL
+  getThumbnailURL: getThumbnailURL,
+  getBgImageURL: getBgImageURL
 };
