@@ -1,15 +1,12 @@
 
-var FlickrAjaxData = require('../data/flickrAjaxData.js');
-var WeatherAjaxData = require('../data/owmAjaxData.js');
-var getWeather = require('./owmCall.js');
+
+var errorMsg = require('../renderers/errorMessages');
+var geoloc = require('../helpers/geolocation.js');
+
 var url = 'http://freegeoip.net/json/';
 
 
-var weatherAjaxData = new WeatherAjaxData();
-var flickrAjaxData = new FlickrAjaxData();
-
-
-function getLocation (ip) {
+function getLocation (ip, calls) {
   $.ajax({
     url: url + ip,
     method: 'GET',
@@ -21,10 +18,13 @@ function getLocation (ip) {
         coords: {
           latitude: data.latitude,
           longitude: data.longitude
-      }};
-
-      weatherAjaxData.setPosCoords(position);
-      getWeather(weatherAjaxData, flickrAjaxData);
+        }
+      };
+      geoloc.fetchWeather(position, calls);
+    },
+    error: function () {
+      errorMsg.showAjaxLocationUnavailable();
+      geoloc.useGeolocation(calls);
     }
   });
 }

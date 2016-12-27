@@ -1,8 +1,13 @@
 
-var url = 'http://jsonip.com/?callback=?';
-var getLocation = require('./freegeoipCall.js');
 
-function getIP () {
+var getLocation = require('./freegeoipCall.js');
+var errorMsg = require('../renderers/errorMessages');
+var useGeolocation = require('../helpers/geolocation.js').useGeolocation;
+
+var url = 'http://jsonip.com/?callback=?';
+
+
+function getIP (calls) {
   $.ajax({
     url: url,
     method: 'GET',
@@ -10,10 +15,11 @@ function getIP () {
     jsonp: true,
     dataType: 'json',
     success: function (data, status, jqxhr) {
-      getLocation(data.ip);
+      getLocation(data.ip, calls);
     },
     error: function (jqxhr, status, error) {
-      console.log('ip cannot be found');
+      errorMsg.showAjaxLocationUnavailable();
+      useGeolocation(calls);
     }
   });
 }
